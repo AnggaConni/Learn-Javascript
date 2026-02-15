@@ -237,7 +237,6 @@
                 validation: (logs, code) => logs.includes("Hello World"),
                 visualType: "terminal", 
                 visualData: null,
-                // Context Data
                 htmlSnippet: `<script>\n  alert('Hello World');\n<\/script>`,
                 htmlDesc: { 
                     id: "Di website asli, console.log biasanya hanya untuk developer (debugging). Untuk user, kita sering menggunakan 'alert' atau menampilkan teks langsung di halaman.", 
@@ -255,7 +254,6 @@
                 validation: (logs, code) => code.includes("let nama") && !code.includes("..."),
                 visualType: "box",
                 visualData: { label: "nama", value: "???" },
-                // Context Data
                 htmlSnippet: `<nav>\n  Halo, <span id="user">...</span>\n</nav>`,
                 htmlDesc: { 
                     id: "Variabel sangat berguna di website dinamis. Contohnya: Menyimpan nama user yang login untuk ditampilkan di pojok kanan atas (Navbar).", 
@@ -345,6 +343,1154 @@
                 visualData: "10 vs 5",
                 htmlSnippet: `<div class="badge">Lulus</div>`,
                 htmlDesc: { id: "Jika nilai > 70, tampilkan badge 'Lulus'. Jika tidak, sembunyikan.", en: "If score > 70, show 'Pass' badge. Else, hide it." }
+            },
+            // LEVEL 9: Equality
+            {
+                id: 9,
+                title: { id: "Sama Dengan (==)", en: "Equality (==)" },
+                desc: { id: "Cek apakah dua nilai sama dengan <code>==</code>.", en: "Check if two values are equal with <code>==</code>." },
+                mission: { id: "Cek apakah 5 == 5.", en: "Check if 5 == 5." },
+                hint: { id: "let sama = 5 == 5;", en: "let sama = 5 == 5;" },
+                initialCode: "let sama = ...;\nconsole.log(sama);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (password === correctPass) {\n  login();\n}`,
+                htmlDesc: { id: "Validasi login: Apakah password yang diinput sama dengan password benar?", en: "Login validation: Is the input password equal to the correct password?" }
+            },
+            // LEVEL 10: If Statement
+            {
+                id: 10,
+                title: { id: "If - Keputusan Pertama", en: "If - First Decision" },
+                desc: { id: "<code>if</code> menjalankan kode HANYA jika kondisi benar.", en: "<code>if</code> runs code ONLY if condition is true." },
+                mission: { id: "Jika <code>umur > 17</code>, cetak 'Dewasa'.", en: "If <code>umur > 17</code>, print 'Dewasa'." },
+                hint: { id: "if (umur > 17) { console.log('Dewasa'); }", en: "if (umur > 17) { console.log('Dewasa'); }" },
+                initialCode: "let umur = 20;\nif (...) {\n  console.log('Dewasa');\n}",
+                validation: (logs) => logs.includes("Dewasa"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (age >= 18) {\n  showAdultContent();\n}`,
+                htmlDesc: { id: "Website dewasa hanya tampil jika umur >= 18. If mengontrol ini.", en: "Adult content only shows if age >= 18. If controls this." }
+            },
+            // LEVEL 11: Else
+            {
+                id: 11,
+                title: { id: "Else - Pilihan Lain", en: "Else - Alternative" },
+                desc: { id: "<code>else</code> jalan jika kondisi <code>if</code> salah.", en: "<code>else</code> runs if <code>if</code> condition is false." },
+                mission: { id: "Jika skor > 50 cetak 'Lulus', kalau tidak 'Gagal'.", en: "If skor > 50 print 'Lulus', else 'Gagal'." },
+                hint: { id: "if (skor > 50) {...} else {...}", en: "if (skor > 50) {...} else {...}" },
+                initialCode: "let skor = 30;\nif (...) {\n  console.log('Lulus');\n} else {\n  console.log('Gagal');\n}",
+                validation: (logs) => logs.includes("Gagal"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (stock > 0) {\n  showBuyButton();\n} else {\n  showSoldOut();\n}`,
+                htmlDesc: { id: "Toko online: Jika stok ada, tampilkan tombol beli. Jika habis, tampilkan 'Sold Out'.", en: "Online store: If stock available, show buy button. Else show 'Sold Out'." }
+            },
+            // LEVEL 12: Else If
+            {
+                id: 12,
+                title: { id: "Else If - Banyak Pilihan", en: "Else If - Multiple Choices" },
+                desc: { id: "Gunakan <code>else if</code> untuk kondisi bertingkat.", en: "Use <code>else if</code> for multiple conditions." },
+                mission: { id: "Nilai A jika >80, B jika >60, sisanya C.", en: "Grade A if >80, B if >60, else C." },
+                hint: { id: "if (nilai > 80) {...} else if (nilai > 60) {...} else {...}", en: "if (nilai > 80) {...} else if (nilai > 60) {...} else {...}" },
+                initialCode: "let nilai = 75;\nif (...) {\n  console.log('A');\n} else if (...) {\n  console.log('B');\n} else {\n  console.log('C');\n}",
+                validation: (logs) => logs.includes("B"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (temp > 30) hot();\nelse if (temp > 20) warm();\nelse cold();`,
+                htmlDesc: { id: "Weather app: Tampilkan ikon berbeda berdasarkan suhu.", en: "Weather app: Show different icons based on temperature." }
+            },
+            // LEVEL 13: Logical AND
+            {
+                id: 13,
+                title: { id: "AND (&&) - Semua Harus Benar", en: "AND (&&) - All Must Be True" },
+                desc: { id: "<code>&&</code> mengharuskan SEMUA kondisi benar.", en: "<code>&&</code> requires ALL conditions to be true." },
+                mission: { id: "Cek jika umur >= 17 DAN punya KTP.", en: "Check if umur >= 17 AND has ID." },
+                hint: { id: "if (umur >= 17 && punyaKTP) {...}", en: "if (umur >= 17 && punyaKTP) {...}" },
+                initialCode: "let umur = 20;\nlet punyaKTP = true;\nif (...) {\n  console.log('Boleh masuk');\n}",
+                validation: (logs) => logs.includes("Boleh masuk"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (loggedIn && isPremium) {\n  showPremiumFeature();\n}`,
+                htmlDesc: { id: "Fitur premium hanya muncul jika user login DAN berlangganan premium.", en: "Premium features only show if user is logged in AND has premium subscription." }
+            },
+            // LEVEL 14: Logical OR
+            {
+                id: 14,
+                title: { id: "OR (||) - Salah Satu Benar", en: "OR (||) - One Must Be True" },
+                desc: { id: "<code>||</code> hanya butuh SATU kondisi benar.", en: "<code>||</code> only needs ONE condition to be true." },
+                mission: { id: "Jika hari Sabtu ATAU Minggu, cetak 'Weekend'.", en: "If Saturday OR Sunday, print 'Weekend'." },
+                hint: { id: "if (hari == 'Sabtu' || hari == 'Minggu') {...}", en: "if (hari == 'Sabtu' || hari == 'Minggu') {...}" },
+                initialCode: "let hari = 'Minggu';\nif (...) {\n  console.log('Weekend');\n}",
+                validation: (logs) => logs.includes("Weekend"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (role === 'admin' || role === 'moderator') {\n  enableEditButton();\n}`,
+                htmlDesc: { id: "Tombol edit muncul jika user adalah admin ATAU moderator.", en: "Edit button appears if user is admin OR moderator." }
+            },
+            // LEVEL 15: NOT
+            {
+                id: 15,
+                title: { id: "NOT (!) - Kebalikan", en: "NOT (!) - Opposite" },
+                desc: { id: "<code>!</code> membalikkan nilai boolean.", en: "<code>!</code> reverses boolean value." },
+                mission: { id: "Jika TIDAK login, cetak 'Silahkan login'.", en: "If NOT logged in, print 'Please login'." },
+                hint: { id: "if (!isLogin) {...}", en: "if (!isLogin) {...}" },
+                initialCode: "let isLogin = false;\nif (...) {\n  console.log('Silahkan login');\n}",
+                validation: (logs) => logs.includes("Silahkan login"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (!agreed) {\n  showTermsPopup();\n}`,
+                htmlDesc: { id: "Jika user belum setuju terms, popup muncul.", en: "If user hasn't agreed to terms, popup appears." }
+            },
+            // LEVEL 16: String Length
+            {
+                id: 16,
+                title: { id: "Panjang String (.length)", en: "String Length (.length)" },
+                desc: { id: "Properti <code>.length</code> menghitung karakter.", en: "Property <code>.length</code> counts characters." },
+                mission: { id: "Hitung panjang kata 'JavaScript'.", en: "Count length of 'JavaScript'." },
+                hint: { id: "let panjang = 'JavaScript'.length;", en: "let panjang = 'JavaScript'.length;" },
+                initialCode: "let kata = 'JavaScript';\nlet panjang = ...;\nconsole.log(panjang);",
+                validation: (logs) => logs[0] == 10,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (password.length < 8) {\n  alert('Password terlalu pendek!');\n}`,
+                htmlDesc: { id: "Validasi password: Minimal 8 karakter menggunakan .length.", en: "Password validation: Minimum 8 characters using .length." }
+            },
+            // LEVEL 17: String Methods - Upper/Lower
+            {
+                id: 17,
+                title: { id: "Ubah Huruf Besar/Kecil", en: "Change Case" },
+                desc: { id: "Method <code>.toUpperCase()</code> dan <code>.toLowerCase()</code>.", en: "Methods <code>.toUpperCase()</code> and <code>.toLowerCase()</code>." },
+                mission: { id: "Ubah 'hello' jadi huruf besar semua.", en: "Change 'hello' to uppercase." },
+                hint: { id: "let besar = 'hello'.toUpperCase();", en: "let besar = 'hello'.toUpperCase();" },
+                initialCode: "let teks = 'hello';\nlet besar = ...;\nconsole.log(besar);",
+                validation: (logs) => logs[0] === "HELLO",
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `userName.toUpperCase()`,
+                htmlDesc: { id: "Membuat username selalu huruf besar untuk konsistensi tampilan.", en: "Making usernames always uppercase for display consistency." }
+            },
+            // LEVEL 18: Arrays - Intro
+            {
+                id: 18,
+                title: { id: "Array - Daftar Data", en: "Arrays - Lists" },
+                desc: { id: "Array menyimpan banyak data dalam satu variabel <code>[...]</code>.", en: "Arrays store multiple values in one variable <code>[...]</code>." },
+                mission: { id: "Buat array buah dengan 3 item.", en: "Create fruit array with 3 items." },
+                hint: { id: "let buah = ['apel', 'jeruk', 'mangga'];", en: "let buah = ['apel', 'jeruk', 'mangga'];" },
+                initialCode: "let buah = [...];\nconsole.log(buah);",
+                validation: (logs, code) => code.includes("[") && code.includes("]"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n</ul>`,
+                htmlDesc: { id: "Daftar belanja di website dibuat dari array yang di-loop.", en: "Shopping lists on websites are created from looped arrays." }
+            },
+            // LEVEL 19: Array Index
+            {
+                id: 19,
+                title: { id: "Akses Array [index]", en: "Array Access [index]" },
+                desc: { id: "Akses item array dengan <code>[0]</code>, <code>[1]</code>, dst.", en: "Access array items with <code>[0]</code>, <code>[1]</code>, etc." },
+                mission: { id: "Ambil item pertama dari array.", en: "Get first item from array." },
+                hint: { id: "let pertama = buah[0];", en: "let pertama = buah[0];" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nlet pertama = ...;\nconsole.log(pertama);",
+                validation: (logs) => logs[0] === "apel",
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<h1>Breaking News Title</h1>`,
+                htmlDesc: { id: "Menampilkan berita utama (headline pertama) dari array berita.", en: "Displaying main headline (first item) from news array." }
+            },
+            // LEVEL 20: Array Length
+            {
+                id: 20,
+                title: { id: "Panjang Array", en: "Array Length" },
+                desc: { id: "Gunakan <code>.length</code> untuk tahu jumlah item.", en: "Use <code>.length</code> to get item count." },
+                mission: { id: "Hitung berapa item dalam array.", en: "Count items in array." },
+                hint: { id: "let jumlah = buah.length;", en: "let jumlah = buah.length;" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nlet jumlah = ...;\nconsole.log(jumlah);",
+                validation: (logs) => logs[0] == 3,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<span class="cart-count">3</span>`,
+                htmlDesc: { id: "Badge jumlah item di keranjang belanja menggunakan .length.", en: "Cart item count badge uses .length." }
+            },
+            // LEVEL 21: Array Push
+            {
+                id: 21,
+                title: { id: "Tambah ke Array (push)", en: "Add to Array (push)" },
+                desc: { id: "Method <code>.push()</code> menambah item di akhir.", en: "Method <code>.push()</code> adds item at the end." },
+                mission: { id: "Tambahkan 'pisang' ke array buah.", en: "Add 'pisang' to fruit array." },
+                hint: { id: "buah.push('pisang');", en: "buah.push('pisang');" },
+                initialCode: "let buah = ['apel', 'jeruk'];\n...;\nconsole.log(buah);",
+                validation: (logs, code) => code.includes("push") && code.includes("pisang"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `cart.push(newItem);`,
+                htmlDesc: { id: "Saat user klik 'Add to Cart', item di-push ke array keranjang.", en: "When user clicks 'Add to Cart', item is pushed to cart array." }
+            },
+            // LEVEL 22: Array Pop
+            {
+                id: 22,
+                title: { id: "Hapus dari Array (pop)", en: "Remove from Array (pop)" },
+                desc: { id: "Method <code>.pop()</code> hapus item terakhir.", en: "Method <code>.pop()</code> removes last item." },
+                mission: { id: "Hapus item terakhir dari array.", en: "Remove last item from array." },
+                hint: { id: "buah.pop();", en: "buah.pop();" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\n...;\nconsole.log(buah);",
+                validation: (logs, code) => code.includes("pop"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `undoStack.pop();`,
+                htmlDesc: { id: "Fitur 'Undo' menghapus aksi terakhir dari history stack dengan pop.", en: "'Undo' feature removes last action from history stack with pop." }
+            },
+            // LEVEL 23: For Loop
+            {
+                id: 23,
+                title: { id: "Loop For - Pengulangan", en: "For Loop - Repetition" },
+                desc: { id: "<code>for</code> mengulangi kode berkali-kali.", en: "<code>for</code> repeats code multiple times." },
+                mission: { id: "Loop angka 1-5 dan cetak setiap angka.", en: "Loop numbers 1-5 and print each." },
+                hint: { id: "for (let i = 1; i <= 5; i++) { console.log(i); }", en: "for (let i = 1; i <= 5; i++) { console.log(i); }" },
+                initialCode: "for (...) {\n  console.log(...);\n}",
+                validation: (logs) => logs.length >= 5 && logs[0] == 1 && logs[4] == 5,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `for (let i = 0; i < items.length; i++) {\n  renderItem(items[i]);\n}`,
+                htmlDesc: { id: "Loop digunakan untuk render semua produk di halaman e-commerce.", en: "Loops are used to render all products on e-commerce pages." }
+            },
+            // LEVEL 24: Loop Array
+            {
+                id: 24,
+                title: { id: "Loop Array dengan For", en: "Loop Array with For" },
+                desc: { id: "Kombinasi loop dan array untuk proses semua item.", en: "Combine loops and arrays to process all items." },
+                mission: { id: "Loop array dan cetak setiap buah.", en: "Loop array and print each fruit." },
+                hint: { id: "for (let i = 0; i < buah.length; i++) { console.log(buah[i]); }", en: "for (let i = 0; i < buah.length; i++) { console.log(buah[i]); }" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nfor (...) {\n  console.log(...);\n}",
+                validation: (logs) => logs.includes("apel") && logs.includes("jeruk") && logs.includes("mangga"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `posts.forEach(post => {\n  createPostCard(post);\n});`,
+                htmlDesc: { id: "Setiap post di social media di-render dengan loop.", en: "Each social media post is rendered with a loop." }
+            },
+            // LEVEL 25: While Loop
+            {
+                id: 25,
+                title: { id: "While Loop", en: "While Loop" },
+                desc: { id: "<code>while</code> terus loop selama kondisi true.", en: "<code>while</code> keeps looping while condition is true." },
+                mission: { id: "Loop dari 1-3 dengan while.", en: "Loop from 1-3 with while." },
+                hint: { id: "let i = 1; while (i <= 3) { console.log(i); i++; }", en: "let i = 1; while (i <= 3) { console.log(i); i++; }" },
+                initialCode: "let i = 1;\nwhile (...) {\n  console.log(i);\n  ...\n}",
+                validation: (logs) => logs.length == 3 && logs[0] == 1 && logs[2] == 3,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `while (!gameOver) {\n  playTurn();\n}`,
+                htmlDesc: { id: "Game loop terus berjalan sampai kondisi gameOver true.", en: "Game loop continues until gameOver condition is true." }
+            },
+            // LEVEL 26: Functions
+            {
+                id: 26,
+                title: { id: "Fungsi - Blok Kode Reusable", en: "Functions - Reusable Code Blocks" },
+                desc: { id: "Function adalah kode yang bisa dipanggil berulang kali.", en: "Functions are code that can be called repeatedly." },
+                mission: { id: "Buat fungsi <code>sapa()</code> yang cetak 'Halo'.", en: "Create function <code>sapa()</code> that prints 'Halo'." },
+                hint: { id: "function sapa() { console.log('Halo'); }", en: "function sapa() { console.log('Halo'); }" },
+                initialCode: "function sapa() {\n  ...\n}\nsapa();",
+                validation: (logs) => logs.includes("Halo"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<button onclick="handleClick()">Click</button>`,
+                htmlDesc: { id: "Tombol memanggil fungsi handleClick() saat diklik.", en: "Button calls handleClick() function when clicked." }
+            },
+            // LEVEL 27: Function Parameters
+            {
+                id: 27,
+                title: { id: "Parameter Fungsi", en: "Function Parameters" },
+                desc: { id: "Parameter membuat fungsi lebih fleksibel.", en: "Parameters make functions more flexible." },
+                mission: { id: "Buat fungsi <code>sapa(nama)</code>.", en: "Create function <code>sapa(nama)</code>." },
+                hint: { id: "function sapa(nama) { console.log('Halo ' + nama); }", en: "function sapa(nama) { console.log('Halo ' + nama); }" },
+                initialCode: "function sapa(...) {\n  console.log('Halo ' + ...);\n}\nsapa('Budi');",
+                validation: (logs) => logs[0].includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `showNotification(message, type);`,
+                htmlDesc: { id: "Fungsi notifikasi menerima pesan dan tipe sebagai parameter.", en: "Notification function receives message and type as parameters." }
+            },
+            // LEVEL 28: Return Values
+            {
+                id: 28,
+                title: { id: "Return - Mengembalikan Nilai", en: "Return - Returning Values" },
+                desc: { id: "<code>return</code> mengirim nilai keluar dari fungsi.", en: "<code>return</code> sends value out of function." },
+                mission: { id: "Buat fungsi tambah yang return hasil.", en: "Create add function that returns result." },
+                hint: { id: "function tambah(a, b) { return a + b; }", en: "function tambah(a, b) { return a + b; }" },
+                initialCode: "function tambah(a, b) {\n  return ...;\n}\nlet hasil = tambah(5, 3);\nconsole.log(hasil);",
+                validation: (logs) => logs[0] == 8,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const total = calculateTotal(items);`,
+                htmlDesc: { id: "Fungsi menghitung total belanja dan return nilainya untuk ditampilkan.", en: "Function calculates shopping total and returns value to display." }
+            },
+            // LEVEL 29: Objects
+            {
+                id: 29,
+                title: { id: "Object - Grup Data", en: "Objects - Data Groups" },
+                desc: { id: "Object menyimpan data berpasangan key-value.", en: "Objects store data in key-value pairs." },
+                mission: { id: "Buat object user dengan nama dan umur.", en: "Create user object with name and age." },
+                hint: { id: "let user = { nama: 'Budi', umur: 25 };", en: "let user = { nama: 'Budi', umur: 25 };" },
+                initialCode: "let user = {\n  nama: '...',\n  umur: ...\n};\nconsole.log(user);",
+                validation: (logs, code) => code.includes("{") && code.includes("nama") && code.includes("umur"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const product = {\n  name: 'Laptop',\n  price: 15000000\n};`,
+                htmlDesc: { id: "Data produk di e-commerce disimpan sebagai object.", en: "Product data in e-commerce is stored as objects." }
+            },
+            // LEVEL 30: Object Access
+            {
+                id: 30,
+                title: { id: "Akses Property Object", en: "Access Object Properties" },
+                desc: { id: "Gunakan <code>.</code> untuk akses property.", en: "Use <code>.</code> to access properties." },
+                mission: { id: "Akses nama dari object user.", en: "Access name from user object." },
+                hint: { id: "console.log(user.nama);", en: "console.log(user.nama);" },
+                initialCode: "let user = { nama: 'Budi', umur: 25 };\nconsole.log(...);",
+                validation: (logs) => logs[0] === "Budi",
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<h1>Laptop</h1>\n<p>Rp 15.000.000</p>`,
+                htmlDesc: { id: "Menampilkan nama dan harga produk dari object.", en: "Displaying product name and price from object." }
+            },
+            // LEVEL 31: Object Methods
+            {
+                id: 31,
+                title: { id: "Method Object", en: "Object Methods" },
+                desc: { id: "Function di dalam object disebut method.", en: "Functions inside objects are called methods." },
+                mission: { id: "Buat object dengan method sapa().", en: "Create object with sapa() method." },
+                hint: { id: "let user = { sapa: function() { console.log('Halo'); } };", en: "let user = { sapa: function() { console.log('Halo'); } };" },
+                initialCode: "let user = {\n  sapa: function() {\n    console.log('Halo');\n  }\n};\nuser.sapa();",
+                validation: (logs) => logs.includes("Halo"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `player.jump();\nplayer.attack();`,
+                htmlDesc: { id: "Object game player punya method jump(), attack(), dll.", en: "Game player object has methods like jump(), attack(), etc." }
+            },
+            // LEVEL 32: Template Literals
+            {
+                id: 32,
+                title: { id: "Template Literals", en: "Template Literals" },
+                desc: { id: "Backtick <code>`</code> untuk string dengan variabel embedded.", en: "Backtick <code>`</code> for strings with embedded variables." },
+                mission: { id: "Gunakan template literal untuk sapa nama.", en: "Use template literal to greet name." },
+                hint: { id: "console.log(`Halo ${nama}`);", en: "console.log(`Halo ${nama}`);" },
+                initialCode: "let nama = 'Budi';\nconsole.log(`...`);",
+                validation: (logs) => logs[0].includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<div class="welcome">\n  Selamat datang, Budi!\n</div>`,
+                htmlDesc: { id: "Template literal memudahkan kombinasi HTML dan data dinamis.", en: "Template literals make it easy to combine HTML and dynamic data." }
+            },
+            // LEVEL 33: Ternary Operator
+            {
+                id: 33,
+                title: { id: "Ternary Operator", en: "Ternary Operator" },
+                desc: { id: "If singkat: <code>kondisi ? benar : salah</code>.", en: "Short if: <code>condition ? true : false</code>." },
+                mission: { id: "Gunakan ternary untuk cek umur >= 17.", en: "Use ternary to check age >= 17." },
+                hint: { id: "let status = umur >= 17 ? 'Dewasa' : 'Anak';", en: "let status = umur >= 17 ? 'Dewasa' : 'Anak';" },
+                initialCode: "let umur = 20;\nlet status = ...;\nconsole.log(status);",
+                validation: (logs) => logs[0] === "Dewasa",
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `className={isActive ? 'active' : ''}`,
+                htmlDesc: { id: "React sering pakai ternary untuk conditional class CSS.", en: "React often uses ternary for conditional CSS classes." }
+            },
+            // LEVEL 34: Switch Statement
+            {
+                id: 34,
+                title: { id: "Switch - Banyak Kasus", en: "Switch - Multiple Cases" },
+                desc: { id: "<code>switch</code> untuk cek banyak nilai berbeda.", en: "<code>switch</code> to check many different values." },
+                mission: { id: "Gunakan switch untuk cek hari.", en: "Use switch to check day." },
+                hint: { id: "switch(hari) { case 'Senin': ...; break; }", en: "switch(hari) { case 'Senin': ...; break; }" },
+                initialCode: "let hari = 'Senin';\nswitch(hari) {\n  case 'Senin':\n    console.log('Awal minggu');\n    break;\n}",
+                validation: (logs) => logs.includes("Awal minggu"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `switch(status) {\n  case 'pending': showLoader(); break;\n  case 'success': showData(); break;\n}`,
+                htmlDesc: { id: "API response handling dengan switch berdasarkan status.", en: "API response handling with switch based on status." }
+            },
+            // LEVEL 35: Array forEach
+            {
+                id: 35,
+                title: { id: "forEach - Loop Modern", en: "forEach - Modern Loop" },
+                desc: { id: "<code>forEach</code> cara modern loop array.", en: "<code>forEach</code> is modern way to loop arrays." },
+                mission: { id: "Gunakan forEach untuk cetak semua buah.", en: "Use forEach to print all fruits." },
+                hint: { id: "buah.forEach(item => console.log(item));", en: "buah.forEach(item => console.log(item));" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nbuah.forEach(...);",
+                validation: (logs) => logs.includes("apel") && logs.includes("jeruk"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `items.forEach(item => {\n  container.appendChild(createCard(item));\n});`,
+                htmlDesc: { id: "Render semua card produk dengan forEach.", en: "Render all product cards with forEach." }
+            },
+            // LEVEL 36: Array map
+            {
+                id: 36,
+                title: { id: "map - Transform Array", en: "map - Transform Array" },
+                desc: { id: "<code>map</code> mengubah setiap item dan return array baru.", en: "<code>map</code> transforms each item and returns new array." },
+                mission: { id: "Kalikan semua angka dengan 2.", en: "Multiply all numbers by 2." },
+                hint: { id: "let baru = angka.map(x => x * 2);", en: "let baru = angka.map(x => x * 2);" },
+                initialCode: "let angka = [1, 2, 3];\nlet baru = angka.map(...);\nconsole.log(baru);",
+                validation: (logs, code) => code.includes("map") && logs[0].includes("2"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const prices = products.map(p => p.price);`,
+                htmlDesc: { id: "Ekstrak semua harga dari array produk dengan map.", en: "Extract all prices from product array with map." }
+            },
+            // LEVEL 37: Array filter
+            {
+                id: 37,
+                title: { id: "filter - Saring Array", en: "filter - Filter Array" },
+                desc: { id: "<code>filter</code> ambil item yang sesuai kondisi.", en: "<code>filter</code> takes items that match condition." },
+                mission: { id: "Filter angka yang > 5.", en: "Filter numbers > 5." },
+                hint: { id: "let hasil = angka.filter(x => x > 5);", en: "let hasil = angka.filter(x => x > 5);" },
+                initialCode: "let angka = [3, 7, 2, 9, 4];\nlet hasil = angka.filter(...);\nconsole.log(hasil);",
+                validation: (logs, code) => code.includes("filter"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const available = products.filter(p => p.stock > 0);`,
+                htmlDesc: { id: "Filter produk yang masih tersedia (stok > 0).", en: "Filter products that are still available (stock > 0)." }
+            },
+            // LEVEL 38: Arrow Functions
+            {
+                id: 38,
+                title: { id: "Arrow Function =>", en: "Arrow Function =>" },
+                desc: { id: "Sintaks modern function dengan <code>=></code>.", en: "Modern function syntax with <code>=></code>." },
+                mission: { id: "Buat arrow function tambah.", en: "Create arrow function add." },
+                hint: { id: "const tambah = (a, b) => a + b;", en: "const tambah = (a, b) => a + b;" },
+                initialCode: "const tambah = ...;\nconsole.log(tambah(3, 4));",
+                validation: (logs) => logs[0] == 7,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const handleClick = () => {\n  console.log('Clicked!');\n};`,
+                htmlDesc: { id: "React dan framework modern pakai arrow function untuk event handlers.", en: "React and modern frameworks use arrow functions for event handlers." }
+            },
+            // LEVEL 39: Array find
+            {
+                id: 39,
+                title: { id: "find - Cari Item", en: "find - Find Item" },
+                desc: { id: "<code>find</code> return item pertama yang cocok.", en: "<code>find</code> returns first matching item." },
+                mission: { id: "Cari angka pertama yang > 5.", en: "Find first number > 5." },
+                hint: { id: "let hasil = angka.find(x => x > 5);", en: "let hasil = angka.find(x => x > 5);" },
+                initialCode: "let angka = [2, 4, 7, 9];\nlet hasil = angka.find(...);\nconsole.log(hasil);",
+                validation: (logs) => logs[0] == 7,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const user = users.find(u => u.id === userId);`,
+                htmlDesc: { id: "Cari user spesifik dari array berdasarkan ID.", en: "Find specific user from array based on ID." }
+            },
+            // LEVEL 40: Array some
+            {
+                id: 40,
+                title: { id: "some - Ada yang Cocok?", en: "some - Any Match?" },
+                desc: { id: "<code>some</code> return true jika ADA yang cocok.", en: "<code>some</code> returns true if ANY match." },
+                mission: { id: "Cek apakah ada angka > 10.", en: "Check if any number > 10." },
+                hint: { id: "let ada = angka.some(x => x > 10);", en: "let ada = angka.some(x => x > 10);" },
+                initialCode: "let angka = [3, 5, 12, 8];\nlet ada = angka.some(...);\nconsole.log(ada);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const hasOutOfStock = products.some(p => p.stock === 0);`,
+                htmlDesc: { id: "Cek apakah ada produk yang out of stock.", en: "Check if any product is out of stock." }
+            },
+            // LEVEL 41: Array every
+            {
+                id: 41,
+                title: { id: "every - Semua Cocok?", en: "every - All Match?" },
+                desc: { id: "<code>every</code> return true jika SEMUA cocok.", en: "<code>every</code> returns true if ALL match." },
+                mission: { id: "Cek apakah semua angka > 0.", en: "Check if all numbers > 0." },
+                hint: { id: "let semua = angka.every(x => x > 0);", en: "let semua = angka.every(x => x > 0);" },
+                initialCode: "let angka = [2, 5, 8, 3];\nlet semua = angka.every(...);\nconsole.log(semua);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const allValid = fields.every(f => f.value !== '');`,
+                htmlDesc: { id: "Validasi form: Cek apakah semua field sudah diisi.", en: "Form validation: Check if all fields are filled." }
+            },
+            // LEVEL 42: Array reduce
+            {
+                id: 42,
+                title: { id: "reduce - Gabung Jadi Satu", en: "reduce - Combine to One" },
+                desc: { id: "<code>reduce</code> gabungkan semua item jadi satu nilai.", en: "<code>reduce</code> combines all items into one value." },
+                mission: { id: "Jumlahkan semua angka dengan reduce.", en: "Sum all numbers with reduce." },
+                hint: { id: "let total = angka.reduce((sum, x) => sum + x, 0);", en: "let total = angka.reduce((sum, x) => sum + x, 0);" },
+                initialCode: "let angka = [1, 2, 3, 4];\nlet total = angka.reduce(...);\nconsole.log(total);",
+                validation: (logs) => logs[0] == 10,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const total = cart.reduce((sum, item) => sum + item.price, 0);`,
+                htmlDesc: { id: "Hitung total harga semua item di keranjang.", en: "Calculate total price of all items in cart." }
+            },
+            // LEVEL 43: Array includes
+            {
+                id: 43,
+                title: { id: "includes - Ada Gak?", en: "includes - Contains?" },
+                desc: { id: "<code>includes</code> cek apakah array berisi nilai.", en: "<code>includes</code> checks if array contains value." },
+                mission: { id: "Cek apakah 'apel' ada di array.", en: "Check if 'apel' is in array." },
+                hint: { id: "let ada = buah.includes('apel');", en: "let ada = buah.includes('apel');" },
+                initialCode: "let buah = ['apel', 'jeruk'];\nlet ada = ...;\nconsole.log(ada);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (permissions.includes('admin')) {\n  showAdminPanel();\n}`,
+                htmlDesc: { id: "Cek apakah user punya permission tertentu.", en: "Check if user has specific permission." }
+            },
+            // LEVEL 44: Array join
+            {
+                id: 44,
+                title: { id: "join - Gabung Jadi String", en: "join - Join to String" },
+                desc: { id: "<code>join</code> gabungkan array jadi satu string.", en: "<code>join</code> combines array into one string." },
+                mission: { id: "Gabung array dengan koma.", en: "Join array with comma." },
+                hint: { id: "let teks = buah.join(', ');", en: "let teks = buah.join(', ');" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nlet teks = ...;\nconsole.log(teks);",
+                validation: (logs) => logs[0].includes(","),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<p>Tags: javascript, tutorial, coding</p>`,
+                htmlDesc: { id: "Tampilkan semua tags artikel dipisah koma.", en: "Display all article tags separated by comma." }
+            },
+            // LEVEL 45: String split
+            {
+                id: 45,
+                title: { id: "split - Pecah String", en: "split - Split String" },
+                desc: { id: "<code>split</code> pecah string jadi array.", en: "<code>split</code> splits string into array." },
+                mission: { id: "Pecah teks berdasarkan spasi.", en: "Split text by space." },
+                hint: { id: "let arr = teks.split(' ');", en: "let arr = teks.split(' ');" },
+                initialCode: "let teks = 'hello world';\nlet arr = ...;\nconsole.log(arr);",
+                validation: (logs, code) => code.includes("split"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const keywords = searchQuery.split(' ');`,
+                htmlDesc: { id: "Pecah search query jadi array kata kunci.", en: "Split search query into array of keywords." }
+            },
+            // LEVEL 46: Array slice
+            {
+                id: 46,
+                title: { id: "slice - Ambil Sebagian", en: "slice - Take Portion" },
+                desc: { id: "<code>slice</code> ambil potongan array tanpa ubah aslinya.", en: "<code>slice</code> takes portion of array without changing original." },
+                mission: { id: "Ambil 2 item pertama.", en: "Take first 2 items." },
+                hint: { id: "let sebagian = buah.slice(0, 2);", en: "let sebagian = buah.slice(0, 2);" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga', 'pisang'];\nlet sebagian = ...;\nconsole.log(sebagian);",
+                validation: (logs, code) => code.includes("slice"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const recentPosts = posts.slice(0, 5);`,
+                htmlDesc: { id: "Tampilkan 5 post terbaru saja.", en: "Display only the 5 most recent posts." }
+            },
+            // LEVEL 47: Array spread
+            {
+                id: 47,
+                title: { id: "Spread Operator ...", en: "Spread Operator ..." },
+                desc: { id: "Operator <code>...</code> untuk expand array.", en: "Operator <code>...</code> to expand array." },
+                mission: { id: "Gabung dua array dengan spread.", en: "Combine two arrays with spread." },
+                hint: { id: "let gabung = [...arr1, ...arr2];", en: "let gabung = [...arr1, ...arr2];" },
+                initialCode: "let arr1 = [1, 2];\nlet arr2 = [3, 4];\nlet gabung = ...;\nconsole.log(gabung);",
+                validation: (logs, code) => code.includes("..."),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const allItems = [...cart, ...wishlist];`,
+                htmlDesc: { id: "Gabungkan cart dan wishlist jadi satu array.", en: "Combine cart and wishlist into one array." }
+            },
+            // LEVEL 48: Object spread
+            {
+                id: 48,
+                title: { id: "Object Spread", en: "Object Spread" },
+                desc: { id: "Spread juga bisa untuk object.", en: "Spread also works for objects." },
+                mission: { id: "Gabung dua object dengan spread.", en: "Combine two objects with spread." },
+                hint: { id: "let gabung = {...obj1, ...obj2};", en: "let gabung = {...obj1, ...obj2};" },
+                initialCode: "let obj1 = {a: 1};\nlet obj2 = {b: 2};\nlet gabung = ...;\nconsole.log(gabung);",
+                validation: (logs, code) => code.includes("..."),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const updatedUser = {...user, age: 26};`,
+                htmlDesc: { id: "Update property object tanpa ubah yang asli.", en: "Update object property without changing original." }
+            },
+            // LEVEL 49: Destructuring Array
+            {
+                id: 49,
+                title: { id: "Destructuring Array", en: "Destructuring Array" },
+                desc: { id: "Extract nilai array ke variabel terpisah.", en: "Extract array values into separate variables." },
+                mission: { id: "Destructure 2 item pertama.", en: "Destructure first 2 items." },
+                hint: { id: "const [a, b] = arr;", en: "const [a, b] = arr;" },
+                initialCode: "let arr = [1, 2, 3];\nconst [...] = arr;\nconsole.log(a, b);",
+                validation: (logs, code) => code.includes("[") && code.includes("]"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const [first, second] = rankings;`,
+                htmlDesc: { id: "Ambil juara 1 dan 2 dari array ranking.", en: "Get 1st and 2nd place from rankings array." }
+            },
+            // LEVEL 50: Destructuring Object
+            {
+                id: 50,
+                title: { id: "Destructuring Object", en: "Destructuring Object" },
+                desc: { id: "Extract property object ke variabel.", en: "Extract object properties into variables." },
+                mission: { id: "Destructure nama dan umur.", en: "Destructure nama and umur." },
+                hint: { id: "const {nama, umur} = user;", en: "const {nama, umur} = user;" },
+                initialCode: "let user = {nama: 'Budi', umur: 25};\nconst {...} = user;\nconsole.log(nama, umur);",
+                validation: (logs, code) => code.includes("{") && code.includes("}"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const {name, price} = product;`,
+                htmlDesc: { id: "Extract property produk untuk digunakan langsung.", en: "Extract product properties for direct use." }
+            },
+            // LEVEL 51: Rest Parameters
+            {
+                id: 51,
+                title: { id: "Rest Parameters", en: "Rest Parameters" },
+                desc: { id: "Gunakan <code>...</code> untuk terima banyak argument.", en: "Use <code>...</code> to accept many arguments." },
+                mission: { id: "Buat fungsi sum yang terima banyak angka.", en: "Create sum function that accepts many numbers." },
+                hint: { id: "function sum(...nums) { return nums.reduce((a,b) => a+b, 0); }", en: "function sum(...nums) { return nums.reduce((a,b) => a+b, 0); }" },
+                initialCode: "function sum(...) {\n  return ...;\n}\nconsole.log(sum(1,2,3,4));",
+                validation: (logs) => logs[0] == 10,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `function log(level, ...messages) {\n  console.log(level, messages);\n}`,
+                htmlDesc: { id: "Logger yang bisa terima banyak pesan sekaligus.", en: "Logger that can accept multiple messages at once." }
+            },
+            // LEVEL 52: Default Parameters
+            {
+                id: 52,
+                title: { id: "Default Parameters", en: "Default Parameters" },
+                desc: { id: "Set nilai default jika parameter kosong.", en: "Set default value if parameter is empty." },
+                mission: { id: "Buat fungsi sapa dengan default 'Tamu'.", en: "Create sapa function with default 'Tamu'." },
+                hint: { id: "function sapa(nama = 'Tamu') { console.log('Halo ' + nama); }", en: "function sapa(nama = 'Tamu') { console.log('Halo ' + nama); }" },
+                initialCode: "function sapa(nama = ...) {\n  console.log('Halo ' + nama);\n}\nsapa();",
+                validation: (logs) => logs[0].includes("Tamu"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `function fetchData(url, method = 'GET') {...}`,
+                htmlDesc: { id: "API request dengan method default GET jika tidak dispesifikkan.", en: "API request with default GET method if not specified." }
+            },
+            // LEVEL 53: Callback Functions
+            {
+                id: 53,
+                title: { id: "Callback - Fungsi sebagai Argumen", en: "Callback - Function as Argument" },
+                desc: { id: "Pass fungsi sebagai parameter ke fungsi lain.", en: "Pass function as parameter to another function." },
+                mission: { id: "Panggil callback setelah operasi selesai.", en: "Call callback after operation completes." },
+                hint: { id: "function proses(callback) { callback(); }", en: "function proses(callback) { callback(); }" },
+                initialCode: "function proses(callback) {\n  callback();\n}\nproses(() => console.log('Selesai'));",
+                validation: (logs) => logs.includes("Selesai"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `button.addEventListener('click', handleClick);`,
+                htmlDesc: { id: "Event listener menerima callback yang dipanggil saat event terjadi.", en: "Event listener receives callback that's called when event occurs." }
+            },
+            // LEVEL 54: Higher Order Functions
+            {
+                id: 54,
+                title: { id: "Higher Order Function", en: "Higher Order Function" },
+                desc: { id: "Fungsi yang return fungsi lain.", en: "Function that returns another function." },
+                mission: { id: "Buat fungsi yang return fungsi.", en: "Create function that returns function." },
+                hint: { id: "function outer() { return function inner() {...} }", en: "function outer() { return function inner() {...} }" },
+                initialCode: "function buat() {\n  return function() {\n    console.log('Inner');\n  };\n}\nlet fn = buat();\nfn();",
+                validation: (logs) => logs.includes("Inner"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const createHandler = (type) => () => {\n  handleEvent(type);\n};`,
+                htmlDesc: { id: "Factory function untuk membuat event handlers berbeda.", en: "Factory function to create different event handlers." }
+            },
+            // LEVEL 55: Closures
+            {
+                id: 55,
+                title: { id: "Closure - Fungsi Ingat Scope", en: "Closure - Function Remembers Scope" },
+                desc: { id: "Inner function akses variabel outer function.", en: "Inner function accesses outer function variables." },
+                mission: { id: "Buat counter dengan closure.", en: "Create counter with closure." },
+                hint: { id: "function counter() { let n = 0; return () => ++n; }", en: "function counter() { let n = 0; return () => ++n; }" },
+                initialCode: "function counter() {\n  let n = 0;\n  return () => ++n;\n}\nlet c = counter();\nconsole.log(c());\nconsole.log(c());",
+                validation: (logs) => logs[0] == 1 && logs[1] == 2,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `function createStore() {\n  let state = {};\n  return {\n    get: () => state,\n    set: (val) => state = val\n  };\n}`,
+                htmlDesc: { id: "State management sederhana dengan closure untuk privacy.", en: "Simple state management with closure for privacy." }
+            },
+            // LEVEL 56: Array indexOf
+            {
+                id: 56,
+                title: { id: "indexOf - Cari Index", en: "indexOf - Find Index" },
+                desc: { id: "Cari index item di array.", en: "Find item index in array." },
+                mission: { id: "Cari index 'jeruk' di array.", en: "Find index of 'jeruk' in array." },
+                hint: { id: "let idx = buah.indexOf('jeruk');", en: "let idx = buah.indexOf('jeruk');" },
+                initialCode: "let buah = ['apel', 'jeruk', 'mangga'];\nlet idx = ...;\nconsole.log(idx);",
+                validation: (logs) => logs[0] == 1,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const position = players.indexOf(currentPlayer);`,
+                htmlDesc: { id: "Cari posisi player di leaderboard.", en: "Find player position in leaderboard." }
+            },
+            // LEVEL 57: Array reverse
+            {
+                id: 57,
+                title: { id: "reverse - Balik Array", en: "reverse - Reverse Array" },
+                desc: { id: "Balikkan urutan array.", en: "Reverse array order." },
+                mission: { id: "Balik urutan array.", en: "Reverse array order." },
+                hint: { id: "arr.reverse();", en: "arr.reverse();" },
+                initialCode: "let arr = [1, 2, 3];\narr.reverse();\nconsole.log(arr);",
+                validation: (logs, code) => code.includes("reverse"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const newest = posts.reverse();`,
+                htmlDesc: { id: "Tampilkan post dari yang terbaru ke terlama.", en: "Display posts from newest to oldest." }
+            },
+            // LEVEL 58: Array sort
+            {
+                id: 58,
+                title: { id: "sort - Urutkan Array", en: "sort - Sort Array" },
+                desc: { id: "Urutkan array (default: string alphabetic).", en: "Sort array (default: string alphabetic)." },
+                mission: { id: "Sort array angka dengan compare function.", en: "Sort number array with compare function." },
+                hint: { id: "arr.sort((a, b) => a - b);", en: "arr.sort((a, b) => a - b);" },
+                initialCode: "let arr = [3, 1, 4, 2];\narr.sort(...);\nconsole.log(arr);",
+                validation: (logs, code) => code.includes("sort"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `products.sort((a, b) => a.price - b.price);`,
+                htmlDesc: { id: "Sort produk berdasarkan harga terendah ke tertinggi.", en: "Sort products by price from lowest to highest." }
+            },
+            // LEVEL 59: Math Object
+            {
+                id: 59,
+                title: { id: "Math.random()", en: "Math.random()" },
+                desc: { id: "Generate angka acak 0-1.", en: "Generate random number 0-1." },
+                mission: { id: "Buat angka random 1-10.", en: "Create random number 1-10." },
+                hint: { id: "let num = Math.floor(Math.random() * 10) + 1;", en: "let num = Math.floor(Math.random() * 10) + 1;" },
+                initialCode: "let num = ...;\nconsole.log(num);",
+                validation: (logs, code) => code.includes("Math.random"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const randomColor = colors[Math.floor(Math.random() * colors.length)];`,
+                htmlDesc: { id: "Pilih warna acak untuk background avatar.", en: "Pick random color for avatar background." }
+            },
+            // LEVEL 60: Math.floor & ceil
+            {
+                id: 60,
+                title: { id: "Math.floor & Math.ceil", en: "Math.floor & Math.ceil" },
+                desc: { id: "Bulatkan ke bawah/atas.", en: "Round down/up." },
+                mission: { id: "Bulatkan 4.7 ke bawah.", en: "Round 4.7 down." },
+                hint: { id: "let rounded = Math.floor(4.7);", en: "let rounded = Math.floor(4.7);" },
+                initialCode: "let rounded = ...;\nconsole.log(rounded);",
+                validation: (logs) => logs[0] == 4,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const pages = Math.ceil(total / perPage);`,
+                htmlDesc: { id: "Hitung jumlah halaman pagination dengan ceil.", en: "Calculate pagination page count with ceil." }
+            },
+            // LEVEL 61: Date Object
+            {
+                id: 61,
+                title: { id: "Date - Tanggal & Waktu", en: "Date - Date & Time" },
+                desc: { id: "Object Date untuk tanggal dan waktu.", en: "Date object for date and time." },
+                mission: { id: "Buat object Date sekarang.", en: "Create current Date object." },
+                hint: { id: "let now = new Date();", en: "let now = new Date();" },
+                initialCode: "let now = ...;\nconsole.log(now);",
+                validation: (logs, code) => code.includes("new Date"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `<time>15/2/2026</time>`,
+                htmlDesc: { id: "Tampilkan tanggal hari ini di footer website.", en: "Display today's date in website footer." }
+            },
+            // LEVEL 62: setTimeout
+            {
+                id: 62,
+                title: { id: "setTimeout - Delay Eksekusi", en: "setTimeout - Delayed Execution" },
+                desc: { id: "Jalankan kode setelah delay tertentu.", en: "Execute code after certain delay." },
+                mission: { id: "Cetak pesan setelah 1 detik (1000ms).", en: "Print message after 1 second (1000ms)." },
+                hint: { id: "setTimeout(() => console.log('Hai'), 1000);", en: "setTimeout(() => console.log('Hai'), 1000);" },
+                initialCode: "setTimeout(() => {\n  console.log('Delayed');\n}, 1000);",
+                validation: (logs) => logs.includes("Delayed"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `setTimeout(() => {\n  hideNotification();\n}, 3000);`,
+                htmlDesc: { id: "Notifikasi otomatis hilang setelah 3 detik.", en: "Notification auto-hides after 3 seconds." }
+            },
+            // LEVEL 63: JSON.stringify
+            {
+                id: 63,
+                title: { id: "JSON.stringify - Object to String", en: "JSON.stringify - Object to String" },
+                desc: { id: "Convert object jadi JSON string.", en: "Convert object to JSON string." },
+                mission: { id: "Stringify object user.", en: "Stringify user object." },
+                hint: { id: "let json = JSON.stringify(user);", en: "let json = JSON.stringify(user);" },
+                initialCode: "let user = {nama: 'Budi'};\nlet json = ...;\nconsole.log(json);",
+                validation: (logs, code) => code.includes("JSON.stringify"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `localStorage.setItem('user', JSON.stringify(user));`,
+                htmlDesc: { id: "Simpan object ke localStorage (harus string dulu).", en: "Save object to localStorage (must be string first)." }
+            },
+            // LEVEL 64: JSON.parse
+            {
+                id: 64,
+                title: { id: "JSON.parse - String to Object", en: "JSON.parse - String to Object" },
+                desc: { id: "Convert JSON string jadi object.", en: "Convert JSON string to object." },
+                mission: { id: "Parse JSON string.", en: "Parse JSON string." },
+                hint: { id: "let obj = JSON.parse(json);", en: "let obj = JSON.parse(json);" },
+                initialCode: "let json = '{\"nama\":\"Budi\"}';\nlet obj = ...;\nconsole.log(obj.nama);",
+                validation: (logs) => logs[0] === "Budi",
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const data = JSON.parse(response);`,
+                htmlDesc: { id: "Parse response API dari string JSON jadi object.", en: "Parse API response from JSON string to object." }
+            },
+            // LEVEL 65: Try Catch
+            {
+                id: 65,
+                title: { id: "Try Catch - Error Handling", en: "Try Catch - Error Handling" },
+                desc: { id: "Tangkap error agar program tidak crash.", en: "Catch errors so program doesn't crash." },
+                mission: { id: "Tangkap error dengan try catch.", en: "Catch error with try catch." },
+                hint: { id: "try { ... } catch(e) { console.log(e.message); }", en: "try { ... } catch(e) { console.log(e.message); }" },
+                initialCode: "try {\n  JSON.parse('invalid');\n} catch(e) {\n  console.log('Error caught');\n}",
+                validation: (logs) => logs.includes("Error caught"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `try {\n  const data = await fetchAPI();\n} catch(error) {\n  showErrorMessage(error);\n}`,
+                htmlDesc: { id: "Tangkap error saat fetch API dan tampilkan pesan user-friendly.", en: "Catch API fetch errors and show user-friendly message." }
+            },
+            // LEVEL 66: Throw Error
+            {
+                id: 66,
+                title: { id: "Throw - Lempar Error", en: "Throw - Throw Error" },
+                desc: { id: "Lempar error custom dengan throw.", en: "Throw custom error with throw." },
+                mission: { id: "Throw error jika umur < 0.", en: "Throw error if age < 0." },
+                hint: { id: "if (umur < 0) throw new Error('Invalid');", en: "if (umur < 0) throw new Error('Invalid');" },
+                initialCode: "function cekUmur(umur) {\n  if (umur < 0) throw new Error('Umur invalid');\n}\ntry {\n  cekUmur(-5);\n} catch(e) {\n  console.log(e.message);\n}",
+                validation: (logs) => logs.includes("Umur invalid"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (!email.includes('@')) {\n  throw new Error('Email invalid');\n}`,
+                htmlDesc: { id: "Validasi input dan throw error jika tidak sesuai.", en: "Validate input and throw error if invalid." }
+            },
+            // LEVEL 67: Promises - Basic
+            {
+                id: 67,
+                title: { id: "Promise - Operasi Async", en: "Promise - Async Operation" },
+                desc: { id: "Promise untuk operasi yang butuh waktu.", en: "Promise for time-consuming operations." },
+                mission: { id: "Buat Promise yang resolve.", en: "Create Promise that resolves." },
+                hint: { id: "let p = new Promise(resolve => resolve('Done'));", en: "let p = new Promise(resolve => resolve('Done'));" },
+                initialCode: "let p = new Promise(resolve => resolve('OK'));\np.then(val => console.log(val));",
+                validation: (logs) => logs.includes("OK"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `fetch('/api/data')\n  .then(res => res.json())\n  .then(data => renderData(data));`,
+                htmlDesc: { id: "API call menggunakan Promise untuk handle async.", en: "API calls use Promises to handle async operations." }
+            },
+            // LEVEL 68: Promise then
+            {
+                id: 68,
+                title: { id: "Promise .then()", en: "Promise .then()" },
+                desc: { id: "Handle hasil Promise dengan .then().", en: "Handle Promise result with .then()." },
+                mission: { id: "Chain .then() untuk proses data.", en: "Chain .then() to process data." },
+                hint: { id: "promise.then(x => x * 2).then(y => console.log(y));", en: "promise.then(x => x * 2).then(y => console.log(y));" },
+                initialCode: "let p = Promise.resolve(5);\np.then(x => x * 2)\n  .then(y => console.log(y));",
+                validation: (logs) => logs[0] == 10,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `fetch(url)\n  .then(res => res.json())\n  .then(data => updateUI(data));`,
+                htmlDesc: { id: "Chain .then() untuk parse response lalu update UI.", en: "Chain .then() to parse response then update UI." }
+            },
+            // LEVEL 69: Promise catch
+            {
+                id: 69,
+                title: { id: "Promise .catch()", en: "Promise .catch()" },
+                desc: { id: "Handle error Promise dengan .catch().", en: "Handle Promise errors with .catch()." },
+                mission: { id: "Catch error dari Promise.", en: "Catch error from Promise." },
+                hint: { id: "promise.catch(err => console.log(err));", en: "promise.catch(err => console.log(err));" },
+                initialCode: "let p = Promise.reject('Error!');\np.catch(err => console.log(err));",
+                validation: (logs) => logs.includes("Error!"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `fetch(url)\n  .then(res => res.json())\n  .catch(err => showError(err));`,
+                htmlDesc: { id: "Catch error saat fetch gagal dan tampilkan ke user.", en: "Catch fetch errors and display to user." }
+            },
+            // LEVEL 70: Async Await
+            {
+                id: 70,
+                title: { id: "Async/Await", en: "Async/Await" },
+                desc: { id: "Sintaks modern untuk handle Promise.", en: "Modern syntax to handle Promises." },
+                mission: { id: "Gunakan async/await.", en: "Use async/await." },
+                hint: { id: "async function fn() { let val = await promise; }", en: "async function fn() { let val = await promise; }" },
+                initialCode: "async function getData() {\n  let val = await Promise.resolve('Data');\n  console.log(val);\n}\ngetData();",
+                validation: (logs) => logs.includes("Data"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `async function loadUser() {\n  const res = await fetch('/api/user');\n  const user = await res.json();\n  renderUser(user);\n}`,
+                htmlDesc: { id: "Async/await membuat async code terlihat seperti sync code.", en: "Async/await makes async code look like sync code." }
+            },
+            // LEVEL 71: Classes - Basic
+            {
+                id: 71,
+                title: { id: "Class - Blueprint Object", en: "Class - Object Blueprint" },
+                desc: { id: "Class untuk membuat banyak object sejenis.", en: "Class to create many similar objects." },
+                mission: { id: "Buat class User.", en: "Create User class." },
+                hint: { id: "class User { constructor(nama) { this.nama = nama; } }", en: "class User { constructor(nama) { this.nama = nama; } }" },
+                initialCode: "class User {\n  constructor(nama) {\n    this.nama = nama;\n  }\n}\nlet u = new User('Budi');\nconsole.log(u.nama);",
+                validation: (logs) => logs.includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class Product {\n  constructor(name, price) {\n    this.name = name;\n    this.price = price;\n  }\n}`,
+                htmlDesc: { id: "Class Product untuk membuat banyak produk dengan struktur sama.", en: "Product class to create many products with same structure." }
+            },
+            // LEVEL 72: Class Methods
+            {
+                id: 72,
+                title: { id: "Class Methods", en: "Class Methods" },
+                desc: { id: "Method di dalam class.", en: "Methods inside class." },
+                mission: { id: "Buat class dengan method.", en: "Create class with method." },
+                hint: { id: "class User { sapa() { console.log('Halo'); } }", en: "class User { sapa() { console.log('Halo'); } }" },
+                initialCode: "class User {\n  sapa() {\n    console.log('Halo');\n  }\n}\nlet u = new User();\nu.sapa();",
+                validation: (logs) => logs.includes("Halo"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class Player {\n  jump() { this.y += 10; }\n  attack() { /* ... */ }\n}`,
+                htmlDesc: { id: "Class Player dengan methods untuk kontrol karakter game.", en: "Player class with methods to control game character." }
+            },
+            // LEVEL 73: This Keyword
+            {
+                id: 73,
+                title: { id: "This Keyword", en: "This Keyword" },
+                desc: { id: "<code>this</code> merujuk ke object saat ini.", en: "<code>this</code> refers to current object." },
+                mission: { id: "Gunakan this untuk akses property.", en: "Use this to access property." },
+                hint: { id: "class User { sapa() { console.log(this.nama); } }", en: "class User { sapa() { console.log(this.nama); } }" },
+                initialCode: "class User {\n  constructor(nama) { this.nama = nama; }\n  sapa() { console.log(this.nama); }\n}\nlet u = new User('Budi');\nu.sapa();",
+                validation: (logs) => logs.includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class Component {\n  render() {\n    return this.props.title;\n  }\n}`,
+                htmlDesc: { id: "This digunakan untuk akses property dan state di React components.", en: "This is used to access props and state in React components." }
+            },
+            // LEVEL 74: Class Inheritance
+            {
+                id: 74,
+                title: { id: "Inheritance - Turunan Class", en: "Inheritance - Class Extension" },
+                desc: { id: "Class bisa mewarisi dari class lain.", en: "Class can inherit from another class." },
+                mission: { id: "Buat class turunan dengan extends.", en: "Create child class with extends." },
+                hint: { id: "class Admin extends User { }", en: "class Admin extends User { }" },
+                initialCode: "class User {}\nclass Admin extends User {}\nlet a = new Admin();\nconsole.log(a instanceof Admin);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class Button extends Component {\n  // Inherits Component methods\n}`,
+                htmlDesc: { id: "Component framework seperti React menggunakan inheritance.", en: "Framework components like React use inheritance." }
+            },
+            // LEVEL 75: Super Keyword
+            {
+                id: 75,
+                title: { id: "Super - Panggil Parent", en: "Super - Call Parent" },
+                desc: { id: "<code>super</code> untuk panggil constructor parent.", en: "<code>super</code> to call parent constructor." },
+                mission: { id: "Gunakan super di child class.", en: "Use super in child class." },
+                hint: { id: "class Admin extends User { constructor(nama) { super(nama); } }", en: "class Admin extends User { constructor(nama) { super(nama); } }" },
+                initialCode: "class User {\n  constructor(nama) { this.nama = nama; }\n}\nclass Admin extends User {\n  constructor(nama) { super(nama); }\n}\nlet a = new Admin('Budi');\nconsole.log(a.nama);",
+                validation: (logs) => logs.includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class Button extends Component {\n  constructor(props) {\n    super(props);\n  }\n}`,
+                htmlDesc: { id: "Super wajib dipanggil di child component React.", en: "Super must be called in React child components." }
+            },
+            // LEVEL 76: Static Methods
+            {
+                id: 76,
+                title: { id: "Static Methods", en: "Static Methods" },
+                desc: { id: "Method yang dipanggil dari class, bukan instance.", en: "Methods called from class, not instance." },
+                mission: { id: "Buat static method.", en: "Create static method." },
+                hint: { id: "class Utils { static log() { console.log('Hi'); } }", en: "class Utils { static log() { console.log('Hi'); } }" },
+                initialCode: "class Utils {\n  static log() { console.log('Static'); }\n}\nUtils.log();",
+                validation: (logs) => logs.includes("Static"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `class API {\n  static async get(url) {...}\n}\nAPI.get('/users');`,
+                htmlDesc: { id: "Static methods bagus untuk utility functions di class.", en: "Static methods are good for utility functions in classes." }
+            },
+            // LEVEL 77: Map Data Structure
+            {
+                id: 77,
+                title: { id: "Map - Key-Value Store", en: "Map - Key-Value Store" },
+                desc: { id: "Map seperti object tapi key bisa tipe apapun.", en: "Map is like object but keys can be any type." },
+                mission: { id: "Buat Map dan set nilai.", en: "Create Map and set value." },
+                hint: { id: "let map = new Map(); map.set('key', 'value');", en: "let map = new Map(); map.set('key', 'value');" },
+                initialCode: "let map = new Map();\nmap.set('nama', 'Budi');\nconsole.log(map.get('nama'));",
+                validation: (logs) => logs.includes("Budi"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const cache = new Map();\ncache.set(userId, userData);`,
+                htmlDesc: { id: "Map digunakan untuk caching data dengan key fleksibel.", en: "Map is used for data caching with flexible keys." }
+            },
+            // LEVEL 78: Set Data Structure
+            {
+                id: 78,
+                title: { id: "Set - Unique Values", en: "Set - Unique Values" },
+                desc: { id: "Set menyimpan nilai unik, tidak ada duplikat.", en: "Set stores unique values, no duplicates." },
+                mission: { id: "Buat Set dan hapus duplikat.", en: "Create Set and remove duplicates." },
+                hint: { id: "let set = new Set([1,2,2,3]);", en: "let set = new Set([1,2,2,3]);" },
+                initialCode: "let arr = [1, 2, 2, 3];\nlet set = new Set(arr);\nconsole.log([...set]);",
+                validation: (logs, code) => code.includes("Set"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const uniqueTags = new Set(tags);`,
+                htmlDesc: { id: "Set digunakan untuk mendapat nilai unik dari array.", en: "Set is used to get unique values from array." }
+            },
+            // LEVEL 79: Modules - Export
+            {
+                id: 79,
+                title: { id: "Export - Bagikan Code", en: "Export - Share Code" },
+                desc: { id: "Export untuk membagikan function/variable ke file lain.", en: "Export to share function/variable to other files." },
+                mission: { id: "Export function atau variable.", en: "Export function or variable." },
+                hint: { id: "export function sapa() {...}", en: "export function sapa() {...}" },
+                initialCode: "// Anggap ini file terpisah\nexport function sapa() {\n  console.log('Exported');\n}\n// Di file lain: import { sapa } from './file';",
+                validation: (logs, code) => code.includes("export"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `// utils.js\nexport function formatDate(date) {...}\n\n// app.js\nimport { formatDate } from './utils';`,
+                htmlDesc: { id: "Module system untuk organize code jadi file-file terpisah.", en: "Module system to organize code into separate files." }
+            },
+            // LEVEL 80: Modules - Import
+            {
+                id: 80,
+                title: { id: "Import - Ambil Code", en: "Import - Get Code" },
+                desc: { id: "Import untuk menggunakan exported code.", en: "Import to use exported code." },
+                mission: { id: "Import function yang di-export.", en: "Import exported function." },
+                hint: { id: "import { sapa } from './file';", en: "import { sapa } from './file';" },
+                initialCode: "// import { sapa } from './utils';\n// sapa();\nconsole.log('Import works');",
+                validation: (logs) => logs.includes("Import works"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `import React from 'react';\nimport { useState } from 'react';`,
+                htmlDesc: { id: "Import library dan dependencies di modern JavaScript.", en: "Import libraries and dependencies in modern JavaScript." }
+            },
+            // LEVEL 81: Regular Expressions
+            {
+                id: 81,
+                title: { id: "RegEx - Pattern Matching", en: "RegEx - Pattern Matching" },
+                desc: { id: "RegEx untuk cari pola dalam string.", en: "RegEx to find patterns in strings." },
+                mission: { id: "Test apakah string mengandung angka.", en: "Test if string contains number." },
+                hint: { id: "let regex = /[0-9]/; regex.test('abc123');", en: "let regex = /[0-9]/; regex.test('abc123');" },
+                initialCode: "let regex = /[0-9]/;\nlet hasil = regex.test('abc123');\nconsole.log(hasil);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (emailRegex.test(email)) {...}`,
+                htmlDesc: { id: "Validasi format email dengan regex.", en: "Validate email format with regex." }
+            },
+            // LEVEL 82: Local Storage - Set
+            {
+                id: 82,
+                title: { id: "LocalStorage - Simpan Data", en: "LocalStorage - Store Data" },
+                desc: { id: "Simpan data di browser dengan localStorage.", en: "Store data in browser with localStorage." },
+                mission: { id: "Simpan data ke localStorage.", en: "Store data to localStorage." },
+                hint: { id: "localStorage.setItem('key', 'value');", en: "localStorage.setItem('key', 'value');" },
+                initialCode: "// Note: Simulasi saja di console\nconsole.log('localStorage.setItem(\"user\", \"Budi\")');",
+                validation: (logs) => logs[0].includes("localStorage"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `localStorage.setItem('theme', 'dark');\nconst theme = localStorage.getItem('theme');`,
+                htmlDesc: { id: "Simpan preferensi user seperti tema, bahasa, dll.", en: "Save user preferences like theme, language, etc." }
+            },
+            // LEVEL 83: Template String Methods
+            {
+                id: 83,
+                title: { id: "String Methods - includes, startsWith", en: "String Methods - includes, startsWith" },
+                desc: { id: "Check apakah string mengandung atau dimulai dengan teks.", en: "Check if string contains or starts with text." },
+                mission: { id: "Cek apakah string mengandung 'Script'.", en: "Check if string contains 'Script'." },
+                hint: { id: "let ada = teks.includes('Script');", en: "let ada = teks.includes('Script');" },
+                initialCode: "let teks = 'JavaScript';\nlet ada = ...;\nconsole.log(ada);",
+                validation: (logs) => logs[0] === true,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `if (url.startsWith('https://')) {\n  secureConnection();\n}`,
+                htmlDesc: { id: "Validasi URL dimulai dengan https.", en: "Validate URL starts with https." }
+            },
+            // LEVEL 84: Array findIndex
+            {
+                id: 84,
+                title: { id: "findIndex - Cari Index dengan Kondisi", en: "findIndex - Find Index with Condition" },
+                desc: { id: "Cari index item pertama yang cocok kondisi.", en: "Find index of first item matching condition." },
+                mission: { id: "Cari index angka pertama > 10.", en: "Find index of first number > 10." },
+                hint: { id: "let idx = arr.findIndex(x => x > 10);", en: "let idx = arr.findIndex(x => x > 10);" },
+                initialCode: "let arr = [5, 8, 15, 20];\nlet idx = ...;\nconsole.log(idx);",
+                validation: (logs) => logs[0] == 2,
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const idx = todos.findIndex(t => t.id === todoId);`,
+                htmlDesc: { id: "Cari index todo untuk update atau delete.", en: "Find todo index to update or delete." }
+            },
+            // LEVEL 85: Object.keys
+            {
+                id: 85,
+                title: { id: "Object.keys - Ambil Keys", en: "Object.keys - Get Keys" },
+                desc: { id: "Ambil semua property names dari object.", en: "Get all property names from object." },
+                mission: { id: "Ambil keys dari object.", en: "Get keys from object." },
+                hint: { id: "let keys = Object.keys(obj);", en: "let keys = Object.keys(obj);" },
+                initialCode: "let obj = {a: 1, b: 2};\nlet keys = ...;\nconsole.log(keys);",
+                validation: (logs, code) => code.includes("Object.keys"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `Object.keys(formData).forEach(key => {\n  validate(key, formData[key]);\n});`,
+                htmlDesc: { id: "Loop semua field form untuk validasi.", en: "Loop all form fields for validation." }
+            },
+            // LEVEL 86: Object.values
+            {
+                id: 86,
+                title: { id: "Object.values - Ambil Values", en: "Object.values - Get Values" },
+                desc: { id: "Ambil semua nilai dari object.", en: "Get all values from object." },
+                mission: { id: "Ambil values dari object.", en: "Get values from object." },
+                hint: { id: "let vals = Object.values(obj);", en: "let vals = Object.values(obj);" },
+                initialCode: "let obj = {a: 1, b: 2};\nlet vals = ...;\nconsole.log(vals);",
+                validation: (logs, code) => code.includes("Object.values"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const prices = Object.values(cart).map(item => item.price);`,
+                htmlDesc: { id: "Ekstrak semua harga dari cart object.", en: "Extract all prices from cart object." }
+            },
+            // LEVEL 87: Object.entries
+            {
+                id: 87,
+                title: { id: "Object.entries - Key-Value Pairs", en: "Object.entries - Key-Value Pairs" },
+                desc: { id: "Ambil array [key, value] pairs.", en: "Get array of [key, value] pairs." },
+                mission: { id: "Ambil entries dari object.", en: "Get entries from object." },
+                hint: { id: "let entries = Object.entries(obj);", en: "let entries = Object.entries(obj);" },
+                initialCode: "let obj = {a: 1, b: 2};\nlet entries = ...;\nconsole.log(entries);",
+                validation: (logs, code) => code.includes("Object.entries"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `Object.entries(stats).forEach(([key, val]) => {\n  renderStat(key, val);\n});`,
+                htmlDesc: { id: "Loop object untuk render semua statistik.", en: "Loop object to render all statistics." }
+            },
+            // LEVEL 88: Nullish Coalescing
+            {
+                id: 88,
+                title: { id: "Nullish Coalescing ??", en: "Nullish Coalescing ??" },
+                desc: { id: "Operator <code>??</code> return nilai kanan jika kiri null/undefined.", en: "Operator <code>??</code> returns right if left is null/undefined." },
+                mission: { id: "Gunakan ?? untuk default value.", en: "Use ?? for default value." },
+                hint: { id: "let val = data ?? 'default';", en: "let val = data ?? 'default';" },
+                initialCode: "let data = null;\nlet val = data ?? 'Default';\nconsole.log(val);",
+                validation: (logs) => logs.includes("Default"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const name = user.name ?? 'Guest';`,
+                htmlDesc: { id: "Tampilkan 'Guest' jika nama user tidak ada.", en: "Display 'Guest' if user name doesn't exist." }
+            },
+            // LEVEL 89: Optional Chaining
+            {
+                id: 89,
+                title: { id: "Optional Chaining ?.", en: "Optional Chaining ?." },
+                desc: { id: "Operator <code>?.</code> akses property dengan aman.", en: "Operator <code>?.</code> safely access properties." },
+                mission: { id: "Gunakan ?. untuk akses nested property.", en: "Use ?. to access nested property." },
+                hint: { id: "let val = obj?.nested?.prop;", en: "let val = obj?.nested?.prop;" },
+                initialCode: "let obj = {};\nlet val = obj?.user?.name ?? 'Unknown';\nconsole.log(val);",
+                validation: (logs) => logs.includes("Unknown"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const city = user?.address?.city;`,
+                htmlDesc: { id: "Akses nested property tanpa error jika undefined.", en: "Access nested property without error if undefined." }
+            },
+            // LEVEL 90: Array flat
+            {
+                id: 90,
+                title: { id: "Array.flat - Ratakan Array", en: "Array.flat - Flatten Array" },
+                desc: { id: "Ratakan nested array jadi 1 level.", en: "Flatten nested array to 1 level." },
+                mission: { id: "Ratakan nested array.", en: "Flatten nested array." },
+                hint: { id: "let flat = arr.flat();", en: "let flat = arr.flat();" },
+                initialCode: "let arr = [1, [2, 3], [4]];\nlet flat = ...;\nconsole.log(flat);",
+                validation: (logs, code) => code.includes("flat"),
+                visualType: "terminal",
+                visualData: null,
+                htmlSnippet: `const allTags = articles.map(a => a.tags).flat();`,
+                htmlDesc: { id: "Gabungkan semua tags dari multiple articles jadi satu array.", en: "Combine all tags from multiple articles into one array." }
             }
         ];
 
