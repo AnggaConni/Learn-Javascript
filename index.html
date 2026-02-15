@@ -111,7 +111,7 @@
                 <!-- Editor Header -->
                 <div class="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-gray-700 text-xs select-none">
                     <span class="font-mono text-gray-400"><i class="fas fa-code mr-1"></i> script.js</span>
-                    <button onclick="toggleHint()" class="text-yellow-500 hover:text-yellow-300 transition">
+                    <button onclick="toggleHint()" class="text-yellow-500 hover:text-yellow-300 transition" title="Keyboard: Ctrl+H">
                         <i class="far fa-lightbulb mr-1"></i> <span data-i18n="hint">Hint</span>
                     </button>
                 </div>
@@ -132,18 +132,25 @@
 
                 <!-- Action Bar (Footer) -->
                 <div class="p-4 bg-[#252526] border-t border-gray-700 flex justify-between items-center h-16">
-                    <button onclick="resetCode()" class="text-gray-400 hover:text-white text-sm transition" title="Reset Code">
-                        <i class="fas fa-undo"></i>
-                    </button>
+                    <div class="flex items-center gap-4">
+                        <button onclick="resetCode()" class="text-gray-400 hover:text-white text-sm transition" title="Reset Code">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <div class="text-[10px] text-gray-600 font-mono hidden md:block">
+                            <kbd class="bg-gray-700 px-1 rounded">Ctrl+Enter</kbd> Run • 
+                            <kbd class="bg-gray-700 px-1 rounded">Ctrl+→</kbd> Next • 
+                            <kbd class="bg-gray-700 px-1 rounded">Ctrl+H</kbd> Hint
+                        </div>
+                    </div>
                     
                     <div class="flex gap-2">
                          <!-- Next Level Button (Hidden by default) -->
-                         <button id="nextLevelBtn" onclick="nextLevel()" class="hidden bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                         <button id="nextLevelBtn" onclick="nextLevel()" class="hidden bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2" title="Keyboard: Ctrl+→">
                             <span data-i18n="next">Lanjut Level</span> <i class="fas fa-arrow-right"></i>
                         </button>
 
                         <!-- Run Button -->
-                        <button id="runBtn" onclick="runCode()" class="bg-js-yellow hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded shadow-[0_0_15px_rgba(247,223,30,0.3)] hover:shadow-[0_0_20px_rgba(247,223,30,0.5)] transition transform active:scale-95 flex items-center gap-2">
+                        <button id="runBtn" onclick="runCode()" class="bg-js-yellow hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded shadow-[0_0_15px_rgba(247,223,30,0.3)] hover:shadow-[0_0_20px_rgba(247,223,30,0.5)] transition transform active:scale-95 flex items-center gap-2" title="Keyboard: Ctrl+Enter">
                             <i class="fas fa-play"></i> <span data-i18n="run">Run Code</span>
                         </button>
                     </div>
@@ -367,8 +374,8 @@
                 hint: { id: "if (umur > 17) { console.log('Dewasa'); }", en: "if (umur > 17) { console.log('Dewasa'); }" },
                 initialCode: "let umur = 20;\nif (...) {\n  console.log('Dewasa');\n}",
                 validation: (logs) => logs.includes("Dewasa"),
-                visualType: "terminal",
-                visualData: null,
+                visualType: "path",
+                visualData: { condition: "umur > 17", result: true },
                 htmlSnippet: `if (age >= 18) {\n  showAdultContent();\n}`,
                 htmlDesc: { id: "Website dewasa hanya tampil jika umur >= 18. If mengontrol ini.", en: "Adult content only shows if age >= 18. If controls this." }
             },
@@ -381,8 +388,8 @@
                 hint: { id: "if (skor > 50) {...} else {...}", en: "if (skor > 50) {...} else {...}" },
                 initialCode: "let skor = 30;\nif (...) {\n  console.log('Lulus');\n} else {\n  console.log('Gagal');\n}",
                 validation: (logs) => logs.includes("Gagal"),
-                visualType: "terminal",
-                visualData: null,
+                visualType: "path",
+                visualData: { condition: "skor > 50", result: false },
                 htmlSnippet: `if (stock > 0) {\n  showBuyButton();\n} else {\n  showSoldOut();\n}`,
                 htmlDesc: { id: "Toko online: Jika stok ada, tampilkan tombol beli. Jika habis, tampilkan 'Sold Out'.", en: "Online store: If stock available, show buy button. Else show 'Sold Out'." }
             },
@@ -549,8 +556,8 @@
                 hint: { id: "for (let i = 1; i <= 5; i++) { console.log(i); }", en: "for (let i = 1; i <= 5; i++) { console.log(i); }" },
                 initialCode: "for (...) {\n  console.log(...);\n}",
                 validation: (logs) => logs.length >= 5 && logs[0] == 1 && logs[4] == 5,
-                visualType: "terminal",
-                visualData: null,
+                visualType: "progress",
+                visualData: { current: 5, total: 5 },
                 htmlSnippet: `for (let i = 0; i < items.length; i++) {\n  renderItem(items[i]);\n}`,
                 htmlDesc: { id: "Loop digunakan untuk render semua produk di halaman e-commerce.", en: "Loops are used to render all products on e-commerce pages." }
             },
@@ -633,8 +640,8 @@
                 hint: { id: "let user = { nama: 'Budi', umur: 25 };", en: "let user = { nama: 'Budi', umur: 25 };" },
                 initialCode: "let user = {\n  nama: '...',\n  umur: ...\n};\nconsole.log(user);",
                 validation: (logs, code) => code.includes("{") && code.includes("nama") && code.includes("umur"),
-                visualType: "terminal",
-                visualData: null,
+                visualType: "card",
+                visualData: { nama: "Budi", umur: 25 },
                 htmlSnippet: `const product = {\n  name: 'Laptop',\n  price: 15000000\n};`,
                 htmlDesc: { id: "Data produk di e-commerce disimpan sebagai object.", en: "Product data in e-commerce is stored as objects." }
             },
@@ -731,8 +738,8 @@
                 hint: { id: "let baru = angka.map(x => x * 2);", en: "let baru = angka.map(x => x * 2);" },
                 initialCode: "let angka = [1, 2, 3];\nlet baru = angka.map(...);\nconsole.log(baru);",
                 validation: (logs, code) => code.includes("map") && logs[0].includes("2"),
-                visualType: "terminal",
-                visualData: null,
+                visualType: "conveyor",
+                visualData: { method: ".map(x => x * 2)", items: [1, 2, 3], description: "Each item × 2" },
                 htmlSnippet: `const prices = products.map(p => p.price);`,
                 htmlDesc: { id: "Ekstrak semua harga dari array produk dengan map.", en: "Extract all prices from product array with map." }
             },
@@ -1503,6 +1510,28 @@
         window.onload = function() {
             renderLevelMenu();
             loadLevel(0);
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + Enter = Run Code
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    runCode();
+                }
+                // Ctrl/Cmd + Right Arrow = Next Level (if unlocked)
+                if ((e.ctrlKey || e.metaKey) && e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextBtn = document.getElementById('nextLevelBtn');
+                    if (!nextBtn.classList.contains('hidden')) {
+                        nextLevel();
+                    }
+                }
+                // Ctrl/Cmd + H = Toggle Hint
+                if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+                    e.preventDefault();
+                    toggleHint();
+                }
+            });
         };
 
         // --- CORE LOGIC ---
@@ -1510,11 +1539,17 @@
             currentLevel = index;
             const level = levels[index];
 
+            // Update Rank Badge based on progress
+            updateRankBadge(index);
+            
+            // Update Progress Percentage
+            const percentage = Math.round(((index + 1) / levels.length) * 100);
+
             // Reset UI
             document.getElementById('levelTitle').innerText = level.title[currentLang];
             document.getElementById('levelDesc').innerHTML = level.desc[currentLang];
             document.getElementById('levelMission').innerHTML = level.mission[currentLang];
-            document.getElementById('levelIndicator').innerText = `LEVEL ${index + 1} / ${levels.length}`;
+            document.getElementById('levelIndicator').innerText = `LEVEL ${index + 1} / ${levels.length} (${percentage}%)`;
             document.getElementById('hintText').innerText = level.hint[currentLang];
             document.getElementById('codeEditor').value = level.initialCode;
             
@@ -1561,11 +1596,31 @@
                     logToUI("❌ " + i18n[currentLang].failConsole, "text-red-400 mt-2 border-l-2 border-red-500 pl-2");
                 }
             } catch (e) {
-                // Error Handling
+                // Enhanced Error Handling with Smart Assistant
                 let errorMsg = e.message;
+                let hint = '';
+                
                 if(e.name === 'ReferenceError') {
-                    errorMsg = `${e.message} <br><span class='text-gray-400 text-xs'>💡 Hint: Cek huruf besar/kecil. 'Nama' != 'nama'.</span>`;
+                    if(errorMsg.includes('is not defined')) {
+                        hint = '💡 Hint: Pastikan variabel sudah dideklarasikan dengan let/const. Cek juga huruf besar/kecil!';
+                    }
+                } else if(e.name === 'SyntaxError') {
+                    if(errorMsg.includes('Unexpected token')) {
+                        hint = '💡 Hint: Mungkin ada tanda kurung { } atau ( ) yang belum ditutup, atau koma/titik koma yang kurang.';
+                    } else if(errorMsg.includes('Unexpected end of input')) {
+                        hint = '💡 Hint: Kamu lupa menutup kurung kurawal }. Cek semua { harus punya pasangan }.';
+                    } else if(errorMsg.includes('Invalid or unexpected token')) {
+                        hint = '💡 Hint: Ada karakter aneh atau tanda kutip yang tidak cocok. Cek \' vs " atau ada karakter tersembunyi.';
+                    }
+                } else if(e.name === 'TypeError') {
+                    if(errorMsg.includes('is not a function')) {
+                        hint = '💡 Hint: Kamu mencoba memanggil sesuatu yang bukan fungsi. Cek spelling nama fungsi.';
+                    } else if(errorMsg.includes('Cannot read property')) {
+                        hint = '💡 Hint: Mencoba akses property dari undefined/null. Pastikan object/array-nya ada dulu.';
+                    }
                 }
+                
+                errorMsg = `${errorMsg}${hint ? '<br><span class="text-yellow-400 text-xs">' + hint + '</span>' : ''}`;
                 logToUI("❌ " + errorMsg, "text-red-400 mt-2 border-l-2 border-red-500 pl-2");
             } finally {
                 console.log = originalLog;
@@ -1580,11 +1635,16 @@
             document.getElementById('runBtn').classList.add('hidden');
             document.getElementById('nextLevelBtn').classList.remove('hidden');
 
-            // 3. Open Context Panel Automatically (Slide Up)
+            // 3. Check for Milestone Achievement
+            if ((level.id % 10 === 0 || level.id === 90) && level.id > 0) {
+                celebrateMilestone(level.id);
+            }
+
+            // 4. Open Context Panel Automatically (Slide Up)
             isContextOpen = true;
             updateContextPanelState();
             
-            // 4. Update Visualizer Dynamically for Level 2 (Variables)
+            // 5. Update Visualizer Dynamically for Level 2 (Variables)
             if (level.id === 2) {
                 // Extract value from code string roughly (since we don't have AST)
                 // Looks for: let nama = 'Value';
@@ -1593,10 +1653,18 @@
                 renderVisualizer("box", { label: "nama", value: extractedValue });
             }
             
-            // 5. Update Visualizer for Level 7 (Switch) to be Interactive
+            // 6. Update Visualizer for Level 7 (Switch) to be Interactive
             if (level.id === 7) {
                 renderVisualizer("switch", true, true);
             }
+        }
+
+        function celebrateMilestone(levelNum) {
+            const msg = levelNum === 90 
+                ? "🎓 CONGRATULATIONS! You've MASTERED JavaScript! 🚀" 
+                : `🎉 MILESTONE! Level ${levelNum} Complete! 🌟`;
+            
+            logToUI(msg, "text-yellow-300 font-bold text-lg mt-2 animate-pulse border-2 border-yellow-500 rounded p-2 bg-yellow-900/30");
         }
 
         // --- VISUALIZER ENGINE ---
@@ -1686,6 +1754,84 @@
                         <i class="fas fa-balance-scale text-6xl text-js-yellow mb-2"></i>
                         <div class="font-mono text-xl text-white border-b border-gray-600 pb-1">${data}</div>
                         <div class="text-green-400 font-bold mt-2 text-2xl">TRUE</div>
+                    </div>
+                `;
+            }
+            // 9. PROGRESS (For Loops)
+            else if (type === 'progress') {
+                container.innerHTML = `
+                    <div class="w-full max-w-md">
+                        <div class="flex justify-between text-sm text-gray-400 mb-2">
+                            <span>Loop Progress</span>
+                            <span class="font-mono">Iteration ${data.current}/${data.total}</span>
+                        </div>
+                        <div class="w-full h-8 bg-gray-800 rounded-full overflow-hidden border-2 border-gray-600">
+                            <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500" style="width: ${(data.current/data.total)*100}%"></div>
+                        </div>
+                        <div class="mt-4 text-center text-gray-400 text-sm">
+                            <i class="fas fa-sync fa-spin text-js-yellow mr-2"></i>Processing...
+                        </div>
+                    </div>
+                `;
+            }
+            // 10. CONVEYOR (For Array Methods)
+            else if (type === 'conveyor') {
+                const items = data.items || [1,2,3];
+                container.innerHTML = `
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="text-sm font-bold text-gray-400 uppercase">${data.method || 'Processing'}</div>
+                        <div class="flex items-center gap-2">
+                            ${items.map(item => `<div class="w-12 h-12 bg-blue-900 border-2 border-blue-500 rounded flex items-center justify-center text-white font-bold">${item}</div>`).join('<i class="fas fa-arrow-right text-gray-600 text-xs"></i>')}
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-cog fa-spin text-js-yellow text-2xl"></i>
+                            <span class="text-gray-400 text-sm">${data.description || 'Transforming...'}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            // 11. PATH (For Conditionals)
+            else if (type === 'path') {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="w-16 h-16 bg-js-yellow rounded-full flex items-center justify-center">
+                            <i class="fas fa-question text-2xl text-black"></i>
+                        </div>
+                        <div class="text-center text-sm text-gray-400 font-mono">${data.condition || 'Condition Check'}</div>
+                        <div class="flex gap-8">
+                            <div class="flex flex-col items-center gap-2 ${data.result === true ? 'opacity-100' : 'opacity-30'}">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <span class="text-green-400 text-xs font-bold">TRUE</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 ${data.result === false ? 'opacity-100' : 'opacity-30'}">
+                                <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-times text-white"></i>
+                                </div>
+                                <span class="text-red-400 text-xs font-bold">FALSE</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // 12. CARD (For Objects)
+            else if (type === 'card') {
+                const obj = data || { name: 'User', age: 25 };
+                container.innerHTML = `
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border-2 border-gray-600 shadow-2xl max-w-xs">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-js-yellow rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-black text-xl"></i>
+                            </div>
+                            <div class="text-sm text-gray-400 font-mono">Object</div>
+                        </div>
+                        ${Object.entries(obj).map(([key, val]) => `
+                            <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                                <span class="text-blue-400 font-mono text-sm">${key}:</span>
+                                <span class="text-white font-mono text-sm">${typeof val === 'string' ? `"${val}"` : val}</span>
+                            </div>
+                        `).join('')}
                     </div>
                 `;
             }
@@ -1783,6 +1929,34 @@
 
         function nextLevel() {
             if(currentLevel < levels.length -1) loadLevel(currentLevel + 1);
+        }
+
+        function updateRankBadge(levelIndex) {
+            const badge = document.getElementById('rankBadge');
+            const progress = (levelIndex + 1) / levels.length;
+            
+            let rank = 'NOVICE';
+            let color = 'bg-gray-700 text-gray-300';
+            
+            if (progress >= 0.9) {
+                rank = 'MASTER';
+                color = 'bg-purple-600 text-white';
+            } else if (progress >= 0.7) {
+                rank = 'EXPERT';
+                color = 'bg-yellow-600 text-black';
+            } else if (progress >= 0.5) {
+                rank = 'ADVANCED';
+                color = 'bg-blue-600 text-white';
+            } else if (progress >= 0.3) {
+                rank = 'INTERMEDIATE';
+                color = 'bg-green-600 text-white';
+            } else if (progress >= 0.1) {
+                rank = 'BEGINNER';
+                color = 'bg-cyan-600 text-white';
+            }
+            
+            badge.innerText = rank;
+            badge.className = `px-2 py-0.5 rounded text-[10px] font-mono font-bold ${color}`;
         }
 
     </script>
