@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Academy - Master JavaScript Logic</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        js: {
+                            yellow: '#F7DF1E',
+                            black: '#323330',
+                            dark: '#1e1e1e',
+                            panel: '#252526'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1e1e; }
+        ::-webkit-scrollbar-thumb { background: #4b4b4b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F7DF1E; }
+
+        .editor-line-numbers { counter-reset: line; }
+        .editor-line-numbers > div::before {
+            counter-increment: line;
+            content: counter(line);
+            display: inline-block;
+            width: 2em;
+            text-align: right;
+            margin-right: 1em;
+            color: #6e7681;
+            font-size: 0.8rem;
+        }
+        
+        .slide-up { animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Interactive Switch Styles */
+        .interactive-hover:hover { filter: brightness(1.1); cursor: pointer; transform: scale(1.05); transition: transform 0.2s; }
+        
+        /* Context Card Animation */
+        .context-card-enter { transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .context-card-active { transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-[#1e1e1e] text-gray-200 font-sans h-screen flex flex-col overflow-hidden">
+
+    <!-- TOP BAR -->
+    <header class="h-14 bg-[#323330] border-b border-gray-700 flex items-center justify-between px-6 shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="bg-js-yellow text-black font-bold w-8 h-8 flex items-center justify-center rounded text-sm">JS</div>
+            <h1 class="font-bold tracking-tight text-white"><span class="text-js-yellow">JS</span> Academy</h1>
+            <span class="px-2 py-0.5 rounded text-[10px] bg-gray-700 text-gray-300 font-mono" id="rankBadge">NOVICE</span>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="relative group">
+                <button onclick="toggleLevelMenu()" class="text-xs font-bold text-js-yellow hover:text-white transition flex items-center gap-2 px-3 py-1.5 bg-gray-800 rounded border border-gray-700">
+                    <i class="fas fa-list"></i>
+                    <span id="levelIndicator">LEVEL 1 / 90</span>
+                </button>
+                <div id="levelMenu" class="hidden absolute top-full right-0 mt-2 w-72 bg-[#252526] border border-gray-600 rounded shadow-2xl z-50 max-h-96 overflow-y-auto"></div>
+            </div>
+
+            <button onclick="toggleLang()" class="text-xs font-bold bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded transition flex items-center gap-2">
+                <i class="fas fa-globe"></i> <span id="langDisplay">ID</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex flex-1 h-full overflow-hidden">
+        
+        <!-- LEFT PANEL: Editor & Instructions -->
+        <div class="w-1/2 flex flex-col border-r border-gray-700 bg-[#1e1e1e]">
+            <div class="p-6 border-b border-gray-700 bg-[#252526]">
+                <h2 id="levelTitle" class="text-xl font-bold text-white mb-2 slide-up">Loading...</h2>
+                <div id="levelDesc" class="text-sm text-gray-300 leading-relaxed mb-4 slide-up">...</div>
+                
+                <div class="bg-blue-900/20 border-l-4 border-blue-500 p-3 rounded-r slide-up" style="animation-delay: 0.1s">
+                    <h3 class="text-blue-400 text-xs font-bold uppercase mb-1"><i class="fas fa-bullseye mr-1"></i> <span data-i18n="mission">Misi</span></h3>
+                    <p id="levelMission" class="text-sm font-medium text-gray-100">...</p>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col relative bg-[#1e1e1e]">
+                <!-- Editor Header -->
+                <div class="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-gray-700 text-xs select-none">
+                    <span class="font-mono text-gray-400"><i class="fas fa-code mr-1"></i> script.js</span>
+                    <button onclick="toggleHint()" class="text-yellow-500 hover:text-yellow-300 transition">
+                        <i class="far fa-lightbulb mr-1"></i> <span data-i18n="hint">Hint</span>
+                    </button>
+                </div>
+
+                <!-- Hint Box (Inline) -->
+                <div id="hintBox" class="hidden absolute top-10 right-4 z-20 w-64 p-3 bg-yellow-900/95 border border-yellow-600 rounded shadow-lg text-xs text-yellow-100 backdrop-blur-sm slide-up">
+                    <div class="font-bold mb-1"><i class="fas fa-info-circle"></i> Hint:</div>
+                    <p id="hintText">...</p>
+                </div>
+
+                <!-- Code Area -->
+                <div class="flex flex-1 relative">
+                    <div class="w-10 bg-[#1e1e1e] border-r border-gray-800 text-gray-600 font-mono text-sm text-right pr-2 pt-4 select-none leading-6">
+                        1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12
+                    </div>
+                    <textarea id="codeEditor" class="flex-1 bg-[#1e1e1e] text-[#d4d4d4] font-mono text-sm p-4 border-none outline-none resize-none leading-6" spellcheck="false" autocomplete="off"></textarea>
+                </div>
+
+                <!-- Action Bar (Footer) -->
+                <div class="p-4 bg-[#252526] border-t border-gray-700 flex justify-between items-center h-16">
+                    <button onclick="resetCode()" class="text-gray-400 hover:text-white text-sm transition" title="Reset Code">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    
+                    <div class="flex gap-2">
+                         <!-- Next Level Button (Hidden by default) -->
+                         <button id="nextLevelBtn" onclick="nextLevel()" class="hidden bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                            <span data-i18n="next">Lanjut Level</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        <!-- Run Button -->
+                        <button id="runBtn" onclick="runCode()" class="bg-js-yellow hover:bg-yellow-300 text-black font-bold py-2 px-6 rounded shadow-[0_0_15px_rgba(247,223,30,0.3)] hover:shadow-[0_0_20px_rgba(247,223,30,0.5)] transition transform active:scale-95 flex items-center gap-2">
+                            <i class="fas fa-play"></i> <span data-i18n="run">Run Code</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Visualizer & Console -->
+        <div class="w-1/2 flex flex-col bg-[#1e1e1e] relative overflow-hidden">
+            
+            <!-- Visualizer Area -->
+            <div class="flex-1 border-b border-gray-700 p-6 overflow-y-auto bg-gradient-to-br from-[#1e1e1e] to-[#252526] relative flex flex-col">
+                
+                <!-- Header Visualizer -->
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-brain mr-2"></i><span data-i18n="visualizer">Memory & Concepts</span></h3>
+                    <!-- Interactive Question Mark Button -->
+                    <button id="contextBtn" onclick="toggleHtmlContext()" class="w-8 h-8 rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300 flex items-center justify-center transition" title="Apa gunanya di HTML?">
+                        <i class="fas fa-question"></i>
+                    </button>
+                </div>
+                
+                <!-- Main Visualizer Content -->
+                <div id="visualizerContent" class="flex-1 flex flex-col items-center justify-center text-center">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <!-- HTML Context Panel (Slide Up Card) -->
+                <div id="htmlContextPanel" class="absolute bottom-0 left-0 right-0 bg-[#2d2d2d] border-t border-gray-600 p-5 shadow-2xl context-card-enter z-10 rounded-t-xl">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-sm font-bold text-blue-400 uppercase flex items-center">
+                            <i class="fab fa-html5 mr-2 text-lg"></i> <span data-i18n="htmlImpl">Implementasi Web</span>
+                        </h4>
+                        <button onclick="toggleHtmlContext()" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    
+                    <p id="htmlExplanation" class="text-xs text-gray-300 mb-3 leading-relaxed">...</p>
+                    
+                    <div class="bg-[#0d1117] rounded-md p-3 border border-gray-700 relative group text-left">
+                        <div class="absolute top-2 right-2 text-gray-600 text-[10px] font-mono">index.html</div>
+                        <pre class="text-xs font-mono text-green-400 overflow-x-auto"><code id="htmlCodeSnippet"></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Console -->
+            <div class="h-1/3 flex flex-col bg-[#0f0f0f] border-t border-gray-700">
+                <div class="px-4 py-2 border-b border-gray-800 flex justify-between items-center bg-[#1e1e1e]">
+                    <span class="text-xs font-mono text-gray-400"><i class="fas fa-terminal mr-1"></i> Console Output</span>
+                    <button onclick="clearConsole()" class="text-xs text-gray-600 hover:text-gray-400"><i class="fas fa-ban"></i> Clear</button>
+                </div>
+                <div id="consoleOutput" class="flex-1 p-4 font-mono text-sm overflow-y-auto text-gray-300 space-y-2">
+                    <div class="text-gray-600 italic">// Output will appear here...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- DICTIONARY ---
+        const i18n = {
+            id: { 
+                mission: "Misi", hint: "Bantuan", run: "Jalankan", 
+                visualizer: "Memori & Konsep", next: "Lanjut Level", 
+                htmlImpl: "Implementasi di Website", 
+                successConsole: "🎉 Level Selesai! Klik tombol Lanjut di bawah.",
+                failConsole: "⚠️ Kode jalan, tapi misi belum selesai.",
+                varLabel: "Variable Storage"
+            },
+            en: { 
+                mission: "Mission", hint: "Hint", run: "Run Code", 
+                visualizer: "Memory & Concepts", next: "Next Level", 
+                htmlImpl: "Website Implementation", 
+                successConsole: "🎉 Level Complete! Click Next below.",
+                failConsole: "⚠️ Code ran, but mission incomplete.",
+                varLabel: "Variable Storage"
+            }
+        };
+
+        // --- LEVELS DATA ---
+        const levels = [
+            // LEVEL 1: Hello World
+            {
+                id: 1,
+                title: { id: "Hello World!", en: "Hello World!" },
+                desc: { id: "Tradisi pertama programmer. Gunakan <code>console.log</code> untuk mencetak pesan.", en: "First tradition. Use <code>console.log</code> to print a message." },
+                mission: { id: "Cetak <code>'Hello World'</code> ke console.", en: "Print <code>'Hello World'</code> to console." },
+                hint: { id: "console.log('Hello World');", en: "console.log('Hello World');" },
+                initialCode: "console.log(...);",
+                validation: (logs, code) => logs.includes("Hello World"),
+                visualType: "terminal", 
+                visualData: null,
+                // Context Data
+                htmlSnippet: `<script>\n  alert('Hello World');\n<\/script>`,
+                htmlDesc: { 
+                    id: "Di website asli, console.log biasanya hanya untuk developer (debugging). Untuk user, kita sering menggunakan 'alert' atau menampilkan teks langsung di halaman.", 
+                    en: "On real websites, console.log is for developers (debugging). For users, we often use 'alert' or display text on the page." 
+                }
+            },
+            // LEVEL 2: Variabel
+            {
+                id: 2,
+                title: { id: "Variabel", en: "Variables" },
+                desc: { id: "Variabel seperti wadah bernama untuk menyimpan data. Gunakan <code>let</code>.", en: "Variables are named containers for data. Use <code>let</code>." },
+                mission: { id: "Buat variabel <code>nama</code> isi dengan nama kamu.", en: "Create variable <code>nama</code> with your name." },
+                hint: { id: "let nama = 'Budi';", en: "let nama = 'Budi';" },
+                initialCode: "let nama = '...';",
+                validation: (logs, code) => code.includes("let nama") && !code.includes("..."),
+                visualType: "box",
+                visualData: { label: "nama", value: "???" },
+                // Context Data
+                htmlSnippet: `<nav>\n  Halo, <span id="user">...</span>\n</nav>`,
+                htmlDesc: { 
+                    id: "Variabel sangat berguna di website dinamis. Contohnya: Menyimpan nama user yang login untuk ditampilkan di pojok kanan atas (Navbar).", 
+                    en: "Variables are crucial for dynamic websites. Example: Storing the logged-in username to display it in the top navigation bar." 
+                }
+            },
+            // LEVEL 3: Math
+            {
+                id: 3,
+                title: { id: "Angka & Matematika", en: "Numbers & Math" },
+                desc: { id: "Komputer sangat jago berhitung: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>.", en: "Computers are great at math: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>." },
+                mission: { id: "Buat variabel <code>hasil</code> yang berisi <code>10 + 5</code>.", en: "Create variable <code>hasil</code> with <code>10 + 5</code>." },
+                hint: { id: "let hasil = 10 + 5;", en: "let hasil = 10 + 5;" },
+                initialCode: "let hasil = ...;\nconsole.log(hasil);",
+                validation: (logs, code) => logs[0] == 15,
+                visualType: "math",
+                visualData: "10 + 5 = 15",
+                htmlSnippet: `<div class="cart-total">\n  Total: Rp 15.000\n</div>`,
+                htmlDesc: { id: "Matematika dipakai di mana-mana! Menghitung total belanja keranjang, diskon, atau sisa saldo.", en: "Math is everywhere! Calculating cart totals, discounts, or remaining balance." }
+            },
+            // LEVEL 4: Reassign
+            {
+                id: 4,
+                title: { id: "Mengubah Variabel", en: "Reassigning Variables" },
+                desc: { id: "Variabel <code>let</code> bisa diubah isinya.", en: "<code>let</code> variables can be reassigned." },
+                mission: { id: "Ubah nilai <code>skor</code> menjadi 100.", en: "Change <code>skor</code> value to 100." },
+                hint: { id: "skor = 100;", en: "skor = 100;" },
+                initialCode: "let skor = 0;\n// Ubah di bawah ini\n... = 100;\nconsole.log(skor);",
+                validation: (logs, code) => logs[0] == 100 && code.includes('skor ='),
+                visualType: "change",
+                visualData: { from: 0, to: 100 },
+                htmlSnippet: `<div id="score">Score: 100</div>`,
+                htmlDesc: { id: "Di Game, skor selalu berubah. Kita update variabel skor setiap kali pemain menang.", en: "In games, score changes constantly. We update the score variable every time the player wins." }
+            },
+            // LEVEL 5: Const
+            {
+                id: 5,
+                title: { id: "Konstanta (const)", en: "Constants" },
+                desc: { id: "Gunakan <code>const</code> untuk data yang tidak boleh berubah.", en: "Use <code>const</code> for immutable data." },
+                mission: { id: "Buat <code>const pi</code> dengan nilai <code>3.14</code>.", en: "Create <code>const pi</code> with value <code>3.14</code>." },
+                hint: { id: "const pi = 3.14;", en: "const pi = 3.14;" },
+                initialCode: "const pi = ...;\nconsole.log(pi);",
+                validation: (logs, code) => code.includes("const pi") && logs[0] == 3.14,
+                visualType: "lock",
+                visualData: "pi",
+                htmlSnippet: `const API_URL = "https://api.google.com";`,
+                htmlDesc: { id: "Const dipakai untuk konfigurasi server, API Key, atau rumus matematika yang pasti (seperti PI).", en: "Const is used for server config, API Keys, or fixed math formulas (like PI)." }
+            },
+            // LEVEL 6: String Concat
+            {
+                id: 6,
+                title: { id: "Gabung String", en: "Concatenation" },
+                desc: { id: "Gunakan <code>+</code> untuk menggabungkan teks.", en: "Use <code>+</code> to join text." },
+                mission: { id: "Gabung <code>depan</code> + <code>belakang</code>.", en: "Join <code>depan</code> + <code>belakang</code>." },
+                hint: { id: "let lengkap = depan + belakang;", en: "let lengkap = depan + belakang;" },
+                initialCode: "let depan = 'Java';\nlet belakang = 'Script';\nlet lengkap = ...;\nconsole.log(lengkap);",
+                validation: (logs, code) => logs[0] === "JavaScript" || logs[0] === "Java Script",
+                visualType: "concat",
+                visualData: ["Java", "Script"],
+                htmlSnippet: `<h1>Selamat Datang, Budi!</h1>`,
+                htmlDesc: { id: "Kita menggabungkan 'Selamat Datang, ' + namaUser + '!' untuk menyapa pengguna secara personal.", en: "We join 'Welcome, ' + userName + '!' to greet users personally." }
+            },
+            // LEVEL 7: Boolean (Interactive)
+            {
+                id: 7, 
+                title: { id: "Boolean & Saklar", en: "Boolean & Switch" },
+                desc: { id: "Boolean hanya dua nilai: <code>true</code> (nyala) atau <code>false</code> (mati).", en: "Boolean only has: <code>true</code> (on) or <code>false</code> (off)." },
+                mission: { id: "Buat variabel <code>isNyala</code> dengan nilai <code>true</code>.", en: "Set <code>isNyala</code> to <code>true</code>." },
+                hint: { id: "let isNyala = true;", en: "let isNyala = true;" },
+                initialCode: "let isNyala = ...;\nconsole.log(isNyala);",
+                validation: (logs, code) => logs[0] === true,
+                visualType: "switch",
+                visualData: true,
+                htmlSnippet: `<button onclick="toggleTheme()">\n  Dark Mode: ON\n</button>`,
+                htmlDesc: { id: "Ini dasar Dark Mode! True = Gelap, False = Terang. Tombol HTML mengubah nilai ini.", en: "This is Dark Mode basis! True = Dark, False = Light. HTML button toggles this." }
+            },
+            // LEVEL 8: Comparison
+            {
+                id: 8,
+                title: { id: "Perbandingan", en: "Comparison" },
+                desc: { id: "Bandingkan angka dengan <code>></code> atau <code><</code>.", en: "Compare numbers using <code>></code> or <code><</code>." },
+                mission: { id: "Cek apakah 10 > 5.", en: "Check if 10 > 5." },
+                hint: { id: "let cek = 10 > 5;", en: "let cek = 10 > 5;" },
+                initialCode: "let cek = ...;\nconsole.log(cek);",
+                validation: (logs) => logs[0] === true,
+                visualType: "scale",
+                visualData: "10 vs 5",
+                htmlSnippet: `<div class="badge">Lulus</div>`,
+                htmlDesc: { id: "Jika nilai > 70, tampilkan badge 'Lulus'. Jika tidak, sembunyikan.", en: "If score > 70, show 'Pass' badge. Else, hide it." }
+            }
+        ];
+
+        // --- STATE ---
+        let currentLang = 'id';
+        let currentLevel = 0;
+        let isContextOpen = false;
+
+        // --- INIT ---
+        window.onload = function() {
+            renderLevelMenu();
+            loadLevel(0);
+        };
+
+        // --- CORE LOGIC ---
+        function loadLevel(index) {
+            currentLevel = index;
+            const level = levels[index];
+
+            // Reset UI
+            document.getElementById('levelTitle').innerText = level.title[currentLang];
+            document.getElementById('levelDesc').innerHTML = level.desc[currentLang];
+            document.getElementById('levelMission').innerHTML = level.mission[currentLang];
+            document.getElementById('levelIndicator').innerText = `LEVEL ${index + 1} / ${levels.length}`;
+            document.getElementById('hintText').innerText = level.hint[currentLang];
+            document.getElementById('codeEditor').value = level.initialCode;
+            
+            // Buttons State
+            document.getElementById('runBtn').classList.remove('hidden');
+            document.getElementById('nextLevelBtn').classList.add('hidden');
+            
+            // Context Panel Close
+            isContextOpen = false;
+            updateContextPanelState();
+
+            // Setup Context Content
+            document.getElementById('htmlExplanation').innerText = level.htmlDesc[currentLang];
+            document.getElementById('htmlCodeSnippet').innerText = level.htmlSnippet;
+
+            clearConsole();
+            
+            // Render Visualizer (Initial State)
+            renderVisualizer(level.visualType, level.visualData);
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const level = levels[currentLevel];
+            let logs = [];
+            
+            // Capture console
+            const originalLog = console.log;
+            console.log = (...args) => {
+                const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+                logs.push(args.length === 1 ? args[0] : msg);
+                logToUI(msg);
+            };
+
+            try {
+                eval(code); // Run code safely in local scope
+                
+                // VALIDATION CHECK
+                if (level.validation(logs, code)) {
+                    // SUCCESS STATE
+                    handleSuccess(level, code);
+                } else {
+                    // FAIL STATE
+                    logToUI("❌ " + i18n[currentLang].failConsole, "text-red-400 mt-2 border-l-2 border-red-500 pl-2");
+                }
+            } catch (e) {
+                // Error Handling
+                let errorMsg = e.message;
+                if(e.name === 'ReferenceError') {
+                    errorMsg = `${e.message} <br><span class='text-gray-400 text-xs'>💡 Hint: Cek huruf besar/kecil. 'Nama' != 'nama'.</span>`;
+                }
+                logToUI("❌ " + errorMsg, "text-red-400 mt-2 border-l-2 border-red-500 pl-2");
+            } finally {
+                console.log = originalLog;
+            }
+        }
+
+        function handleSuccess(level, userCode) {
+            // 1. Show Success Message in Console
+            logToUI(i18n[currentLang].successConsole, "text-green-400 font-bold mt-4 border-t border-green-800 pt-2 animate-pulse");
+            
+            // 2. Switch Buttons (Run -> Next)
+            document.getElementById('runBtn').classList.add('hidden');
+            document.getElementById('nextLevelBtn').classList.remove('hidden');
+
+            // 3. Open Context Panel Automatically (Slide Up)
+            isContextOpen = true;
+            updateContextPanelState();
+            
+            // 4. Update Visualizer Dynamically for Level 2 (Variables)
+            if (level.id === 2) {
+                // Extract value from code string roughly (since we don't have AST)
+                // Looks for: let nama = 'Value';
+                const match = userCode.match(/let\s+nama\s*=\s*['"`](.*?)['"`]/);
+                const extractedValue = match ? match[1] : "Unknown";
+                renderVisualizer("box", { label: "nama", value: extractedValue });
+            }
+            
+            // 5. Update Visualizer for Level 7 (Switch) to be Interactive
+            if (level.id === 7) {
+                renderVisualizer("switch", true, true);
+            }
+        }
+
+        // --- VISUALIZER ENGINE ---
+        function renderVisualizer(type, data, interactive = false) {
+            const container = document.getElementById('visualizerContent');
+            container.innerHTML = ''; // Clear
+
+            // 1. TERMINAL
+            if (type === 'terminal') {
+                container.innerHTML = `
+                    <div class="text-6xl mb-4 animate-bounce">👋</div>
+                    <div class="text-gray-400 font-mono">Console Ready</div>
+                `;
+            }
+            // 2. BOX (Variable)
+            else if (type === 'box') {
+                container.innerHTML = `
+                     <div class="relative w-32 h-32 border-4 border-js-yellow bg-gray-800 flex items-center justify-center rounded-lg shadow-[0_0_20px_rgba(247,223,30,0.2)] transition-all duration-500 transform scale-100">
+                        <span class="text-white font-mono text-xl truncate px-2">${data.value}</span>
+                        <div class="absolute -top-3 bg-js-yellow text-black font-bold px-2 rounded text-xs">${data.label}</div>
+                    </div>
+                    <div class="mt-6 text-xs text-gray-500 font-mono uppercase tracking-widest">${i18n[currentLang].varLabel}</div>
+                `;
+            }
+            // 3. MATH
+            else if (type === 'math') {
+                container.innerHTML = `
+                    <div class="flex items-center gap-4 text-2xl font-mono text-white">
+                        <div class="p-3 bg-blue-900 rounded">10</div>
+                        <div>+</div>
+                        <div class="p-3 bg-blue-900 rounded">5</div>
+                        <div>=</div>
+                        <div class="p-3 bg-green-900 border border-green-500 rounded fade-in">15</div>
+                    </div>
+                `;
+            }
+            // 4. SWITCH
+            else if (type === 'switch') {
+                const isOn = data === true;
+                const cursor = interactive ? 'cursor-pointer interactive-hover' : 'cursor-not-allowed opacity-90';
+                const onclick = interactive ? 'onclick="toggleVisualSwitch(this)"' : '';
+                container.innerHTML = `
+                    <div class="relative group" ${onclick}>
+                        <div id="vis-switch-bg" class="w-20 h-36 rounded-full p-2 flex flex-col justify-between items-center relative shadow-inner transition-colors duration-300 ${isOn ? 'bg-green-900' : 'bg-red-900'} ${cursor}">
+                            <div id="vis-switch-knob" class="w-16 h-16 rounded-full shadow-xl transform transition-transform duration-300 ${isOn ? 'bg-green-400 translate-y-0' : 'bg-red-500 translate-y-16'} border-4 border-white/20"></div>
+                        </div>
+                        <div id="vis-switch-text" class="mt-4 font-bold text-2xl font-mono text-white">${isOn ? 'TRUE' : 'FALSE'}</div>
+                        ${interactive ? '<div class="absolute -right-20 top-1/2 text-xs text-green-400 animate-pulse">👈 Coba Klik!</div>' : ''}
+                    </div>
+                `;
+            }
+            // 5. CHANGE
+            else if (type === 'change') {
+                container.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-20 h-20 border-2 border-gray-600 rounded flex items-center justify-center text-gray-500 line-through decoration-red-500">${data.from}</div>
+                        <i class="fas fa-arrow-right text-white"></i>
+                        <div class="w-20 h-20 border-4 border-green-500 rounded flex items-center justify-center text-white font-bold bg-green-900/50">${data.to}</div>
+                    </div>
+                `;
+            }
+            // 6. LOCK (Const)
+            else if (type === 'lock') {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-lock text-6xl text-red-500 mb-2"></i>
+                        <div class="font-mono text-xl border px-4 py-2 rounded border-red-500 text-red-200">PI = 3.14</div>
+                    </div>
+                `;
+            }
+            // 7. CONCAT
+             else if (type === 'concat') {
+                container.innerHTML = `
+                   <div class="flex items-center gap-2">
+                        <div class="bg-purple-900 px-3 py-2 rounded text-purple-200">"${data[0]}"</div>
+                        <i class="fas fa-plus text-gray-500"></i>
+                        <div class="bg-purple-900 px-3 py-2 rounded text-purple-200">"${data[1]}"</div>
+                   </div>
+                   <div class="mt-2 text-2xl">⬇️</div>
+                   <div class="bg-green-900 px-4 py-2 rounded border border-green-500 text-green-200">"${data[0]}${data[1]}"</div>
+                `;
+            }
+            // 8. SCALE
+            else if (type === 'scale') {
+                 container.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-balance-scale text-6xl text-js-yellow mb-2"></i>
+                        <div class="font-mono text-xl text-white border-b border-gray-600 pb-1">${data}</div>
+                        <div class="text-green-400 font-bold mt-2 text-2xl">TRUE</div>
+                    </div>
+                `;
+            }
+        }
+
+        // --- INTERACTIVITY ---
+        function toggleVisualSwitch(el) {
+            const bg = el.querySelector('#vis-switch-bg');
+            const knob = el.querySelector('#vis-switch-knob');
+            const text = el.querySelector('#vis-switch-text');
+            const isOn = bg.classList.contains('bg-green-900');
+
+            if (isOn) {
+                // OFF
+                bg.classList.replace('bg-green-900', 'bg-red-900');
+                knob.classList.replace('bg-green-400', 'bg-red-500');
+                knob.classList.replace('translate-y-0', 'translate-y-16');
+                text.innerText = 'FALSE';
+            } else {
+                // ON
+                bg.classList.replace('bg-red-900', 'bg-green-900');
+                knob.classList.replace('bg-red-500', 'bg-green-400');
+                knob.classList.replace('translate-y-16', 'translate-y-0');
+                text.innerText = 'TRUE';
+            }
+        }
+
+        // --- CONTEXT PANEL ---
+        function toggleHtmlContext() {
+            isContextOpen = !isContextOpen;
+            updateContextPanelState();
+        }
+
+        function updateContextPanelState() {
+            const panel = document.getElementById('htmlContextPanel');
+            const btn = document.getElementById('contextBtn');
+            
+            if (isContextOpen) {
+                panel.classList.add('context-card-active');
+                btn.classList.add('text-white', 'bg-blue-600');
+                btn.classList.remove('text-gray-300', 'bg-gray-700');
+            } else {
+                panel.classList.remove('context-card-active');
+                btn.classList.remove('text-white', 'bg-blue-600');
+                btn.classList.add('text-gray-300', 'bg-gray-700');
+            }
+        }
+
+        // --- UTILS ---
+        function logToUI(msg, classes="") {
+            const out = document.getElementById('consoleOutput');
+            const p = document.createElement('div');
+            p.className = classes || "text-green-400 font-mono text-sm border-l-2 border-green-500 pl-2";
+            p.innerHTML = "> " + msg;
+            out.appendChild(p);
+            out.scrollTop = out.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('consoleOutput').innerHTML = '<div class="text-gray-600 italic">// Output will appear here...</div>';
+        }
+
+        function resetCode() {
+            document.getElementById('codeEditor').value = levels[currentLevel].initialCode;
+        }
+
+        function toggleHint() {
+            document.getElementById('hintBox').classList.toggle('hidden');
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.getElementById('langDisplay').innerText = currentLang.toUpperCase();
+            
+            // Re-render UI text
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
+            });
+
+            loadLevel(currentLevel);
+        }
+
+        function toggleLevelMenu() {
+            document.getElementById('levelMenu').classList.toggle('hidden');
+        }
+        
+        function renderLevelMenu() {
+             document.getElementById('levelMenu').innerHTML = levels.map((l, i) => `
+                <button onclick="loadLevel(${i}); toggleLevelMenu()" class="w-full text-left px-4 py-3 border-b border-gray-700 hover:bg-gray-700 flex justify-between items-center group">
+                    <span class="text-sm text-gray-300 group-hover:text-white">Level ${l.id}: ${l.title[currentLang]}</span>
+                </button>
+            `).join('');
+        }
+
+        function nextLevel() {
+            if(currentLevel < levels.length -1) loadLevel(currentLevel + 1);
+        }
+
+    </script>
+</body>
+</html>
